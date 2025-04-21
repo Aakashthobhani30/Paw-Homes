@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Container, Row, Col, Card, Spinner, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Spinner, Button, Alert } from 'react-bootstrap';
 import api from '../api';
 import { motion } from 'framer-motion';
 import Layout from '../components/Layout';
+
+const THEME_COLOR = '#0fa8a8'; // Using the same theme color as EventDetail component
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -41,7 +43,7 @@ const BlogDetail = () => {
     if (loading) {
       return (
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '60vh' }}>
-          <Spinner animation="border" role="status" variant="primary">
+          <Spinner animation="border" role="status" style={{ color: THEME_COLOR }}>
             <span className="visually-hidden">Loading...</span>
           </Spinner>
         </div>
@@ -54,7 +56,12 @@ const BlogDetail = () => {
           <div className="alert alert-danger" role="alert">
             {error || 'Blog post not found'}
           </div>
-          <Button as={Link} to="/blog" variant="primary">
+          <Button 
+            as={Link} 
+            to="/blog" 
+            variant="dark"
+            style={{ backgroundColor: THEME_COLOR, borderColor: THEME_COLOR }}
+          >
             Back to Blog
           </Button>
         </Container>
@@ -71,58 +78,66 @@ const BlogDetail = () => {
           <Button 
             as={Link} 
             to="/blog" 
-            variant="outline-primary" 
+            variant="outline-dark" 
             className="mb-4"
           >
             ← Back to Blog
           </Button>
 
           <article className="blog-post">
-            {blog.image && (
-              <div className="blog-image-container mb-4">
-                <img 
-                  src={blog.image.startsWith('http') ? blog.image : `http://localhost:8000${blog.image}`}
-                  alt={blog.title} 
-                  className="img-fluid rounded blog-image"
-                />
-              </div>
-            )}
-
-            <header className="blog-header mb-4">
-              <h1 className="blog-title">{blog.title}</h1>
-              <div className="blog-meta d-flex justify-content-between align-items-center">
-                <div>
-                  <span className="text-muted">
-                    {blog.created_at ? new Date(blog.created_at).toLocaleDateString() : ''}
-                  </span>
-                  {blog.author && (
-                    <span className="text-muted ms-3">By {blog.author}</span>
+            {/* Blog Information Card at the top */}
+            <Card className="shadow-sm mb-4 blog-info-card">
+              <Card.Body>
+                <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                  <h1 className="blog-title mb-0">{blog.title}</h1>
+                  {blog.category && (
+                    <span className="badge" style={{ backgroundColor: THEME_COLOR }}>{blog.category}</span>
                   )}
                 </div>
-                {blog.category && (
-                  <span className="badge bg-primary">{blog.category}</span>
-                )}
-              </div>
-            </header>
-
-            <div
-              className="blog-content"
-              dangerouslySetInnerHTML={{ __html: blog.content }}
-            ></div>
-
-
-            {blog.tags && blog.tags.length > 0 && (
-              <div className="blog-tags mt-4">
-                <h5>Tags:</h5>
-                <div className="d-flex flex-wrap gap-2">
-                  {blog.tags.map((tag, index) => (
-                    <span key={index} className="badge bg-light text-dark">
-                      {tag}
-                    </span>
-                  ))}
+                
+                <div className="blog-meta mb-3">
+                  <span className="text-muted">
+                    📅 {blog.created_at ? new Date(blog.created_at).toLocaleDateString() : ''}
+                  </span>
+                  {blog.author && (
+                    <span className="text-muted ms-3">✍️ By {blog.author}</span>
+                  )}
                 </div>
-              </div>
-            )}
+                
+                {blog.tags && blog.tags.length > 0 && (
+                  <div className="blog-tags mb-3">
+                    <h5>Tags:</h5>
+                    <div className="d-flex flex-wrap gap-2">
+                      {blog.tags.map((tag, index) => (
+                        <span key={index} className="badge bg-light text-dark">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </Card.Body>
+            </Card>
+
+            {/* Blog Content */}
+            <Card className="shadow-sm mb-4">
+              {blog.image && (
+                <div className="blog-image-container">
+                  <img 
+                    src={blog.image.startsWith('http') ? blog.image : `http://localhost:8000${blog.image}`}
+                    alt={blog.title} 
+                    className="img-fluid blog-image"
+                    style={{ width: '100%', height: '400px', objectFit: 'cover' }}
+                  />
+                </div>
+              )}
+              <Card.Body>
+                <div
+                  className="blog-content"
+                  dangerouslySetInnerHTML={{ __html: blog.content }}
+                ></div>
+              </Card.Body>
+            </Card>
           </article>
 
           {relatedBlogs.length > 0 && (
@@ -151,7 +166,8 @@ const BlogDetail = () => {
                             as={Link} 
                             to={`/blog/${relatedBlog.id}`} 
                             variant="link" 
-                            className="p-0 text-decoration-none"
+                            className="p-0"
+                            style={{ color: THEME_COLOR, textDecoration: 'none' }}
                           >
                             Read More
                           </Button>
@@ -163,13 +179,22 @@ const BlogDetail = () => {
               </Row>
             </section>
           )}
+
+          <div className="mt-4">
+            <Button 
+              as={Link} 
+              to="/blog" 
+              variant="outline-dark" 
+              className="w-100"
+            >
+              Back to Blogs
+            </Button>
+          </div>
         </motion.div>
 
         <style jsx>{`
           .blog-image-container {
-            max-height: 500px;
             overflow: hidden;
-            border-radius: 12px;
           }
           
           .blog-image {
@@ -179,15 +204,14 @@ const BlogDetail = () => {
           }
           
           .blog-title {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 700;
             color: #333;
-            margin-bottom: 1rem;
           }
           
           .blog-meta {
             color: #666;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
           }
           
           .blog-content {
@@ -213,24 +237,15 @@ const BlogDetail = () => {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
           }
-          
-          .btn-outline-primary {
-            border-color: #0b7e7e;
-            color: #0b7e7e;
-          }
-          
-          .btn-outline-primary:hover {
-            background-color: #0b7e7e;
-            color: white;
-          }
-          
-          .badge.bg-primary {
-            background-color: #0b7e7e !important;
+
+          .blog-info-card {
+            border-radius: 12px;
+            border: none;
           }
           
           @media (max-width: 768px) {
             .blog-title {
-              font-size: 2rem;
+              font-size: 1.8rem;
             }
             
             .blog-content {
@@ -249,4 +264,4 @@ const BlogDetail = () => {
   );
 };
 
-export default BlogDetail; 
+export default BlogDetail;

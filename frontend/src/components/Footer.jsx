@@ -28,7 +28,6 @@ const Footer = () => {
                 <li><Link to="/services">Our Services</Link></li>
                 <li><Link to="/events">Events</Link></li>
                 <li><Link to="/about">About Us</Link></li>
-                {/* <li><Link to="/contact">Contact Us</Link></li> */}
               </ul>
             </Col>
 
@@ -60,7 +59,7 @@ const Footer = () => {
                 </li>
                 <li>
                 ⏰ Working Hours:<br /> Monday-Friday: 9:00 AM - 8:00 PM
-                <br />Saturday-Sunday: 10:00 AM - 5:00 PM
+                <br />Saturday-Sunday: 10:00 AM - 6:00 PM
                 </li>
               </ul>
             </Col>

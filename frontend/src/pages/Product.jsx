@@ -41,7 +41,7 @@ const Product = () => {
         return products.filter(product => {
             const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                 (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()));
-            const matchesCategory = filters.category === "all" || product.category === filters.category;
+            const matchesCategory = filters.category === "all" || product.category.id === filters.category.id;
             
             // Price range filter
             let matchesPrice = true;
@@ -84,7 +84,7 @@ const Product = () => {
         handleCloseModal();
     };
 
-    const categories = [...new Set(products.map(product => product.category).filter(Boolean))];
+    const categories = [...new Set(products.map(product => product.category.id).filter(Boolean))];
 
     return (
         <Layout >
@@ -116,14 +116,14 @@ const Product = () => {
                             </Col>
                             <Col lg={3} md={6} sm={6}>
                                 <Form.Select
-                                    value={filters.category}
+                                    value={filters.category.id}
                                     onChange={(e) => setFilters({...filters, category: e.target.value})}
                                     aria-label="Filter by category"
                                     className="filter-focus"
                                 >
                                     <option value="all">All Categories</option>
                                     {categories.map(category => (
-                                        <option key={category} value={category}>{category}</option>
+                                        <option key={category.id} value={category.id}>{category.id}</option>
                                     ))}
                                 </Form.Select>
                             </Col>
@@ -174,7 +174,7 @@ const Product = () => {
                                                 <span className="product-price">₹{parseFloat(product.price).toFixed(2)}</span>
                                             </div>
                                             <div className="mb-2">
-                                                <span className="badge bg-info text-dark">{product.category}</span>
+                                                <span className="badge bg-info text-dark">{product.category.id}</span>
                                             </div>
                                             <Card.Text className="text-muted small flex-grow-1">
                                                 {product.description ? product.description.substring(0, 80) + '...' : 'No description available.'} 
@@ -223,7 +223,7 @@ const Product = () => {
                                     <h4 className="mb-3">₹{parseFloat(selectedProduct.price).toFixed(2)}</h4>
                                     <p className="mb-3">{selectedProduct.description}</p>
                                     <div className="mb-3">
-                                        <span className="badge bg-info text-dark me-2">{selectedProduct.category}</span>
+                                        <span className="badge bg-info text-dark me-2">{selectedProduct.category.id}</span>
                                     </div>
                                     
                                     <div className="d-flex align-items-center mb-3">

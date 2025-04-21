@@ -18,6 +18,7 @@ class ProductCategorySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     created_by = UserSerializers(read_only = True)
+    category = ProductCategorySerializer(source="product_category_id", read_only = True)
 
     class Meta:
         model = Product
@@ -25,6 +26,8 @@ class ProductSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         request = self.context.get("request")
+        category_instance = validated_data.pop("product_category_id", None)
+        validated_data["product_category_id"] = category_instance
         validated_data["created_by"] = request.user
         return super().create(validated_data)
 
