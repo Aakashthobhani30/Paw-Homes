@@ -1,0 +1,77 @@
+/* src/index.css or your main global CSS file */
+:root {
+  --theme-primary: #11bcbc; /* Main Teal */
+  --theme-primary-dark: #0fa8a8; /* Darker Teal (for borders, dark backgrounds) */
+  --theme-primary-light: #a4eaea; /* Light Teal (for lighter backgrounds, accents) */
+  --theme-primary-hover: #0fa8a8; /* Hover color (can be same as dark or slightly different) */
+  --theme-text-on-primary: #ffffff; /* Text color on main teal */
+  --theme-text-on-light: #212529; /* Text color on light backgrounds */
+
+  /* Optional: Override Bootstrap primary if using Sass, or define BS component styles */
+}
+
+/* Global Styles using variables */
+body {
+  /* Optional: Set default background if needed */
+  /* background-color: #f8f9fa; */ /* Example: light gray */
+}
+
+/* --- Button Styles --- */
+.btn-theme-primary {
+  background-color: var(--theme-primary);
+  border-color: var(--theme-primary);
+  color: var(--theme-text-on-primary);
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.btn-theme-primary:hover {
+  background-color: var(--theme-primary-hover);
+  border-color: var(--theme-primary-dark);
+  color: var(--theme-text-on-primary);
+}
+
+.btn-theme-dark-hover {
+  background-color: #343a40; /* Dark base */
+  border-color: #343a40;
+  color: #ffffff;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+.btn-theme-dark-hover:hover {
+    background-color: var(--theme-primary);
+    border-color: var(--theme-primary-dark);
+    color: var(--theme-text-on-primary) !important;
+}
+
+/* --- Focus Ring --- */
+.form-control:focus, .form-select:focus, .btn:focus {
+  border-color: var(--theme-primary-dark);
+  box-shadow: 0 0 0 0.25rem rgba(17, 188, 188, 0.5); /* Use rgba of theme color */
+}
+
+/* --- Text Color Helper --- */
+.text-theme-primary {
+  color: var(--theme-primary) !important;
+}
+
+/* --- Background Helper --- */
+.bg-theme-primary {
+  background-color: var(--theme-primary) !important;
+}
+.bg-theme-primary-light {
+    background-color: var(--theme-primary-light) !important;
+}
+
+/* --- Navbar Adjustments (Example) --- */
+/* If using Navbar bg="dark" */
+/* .navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-brand:hover {
+  color: var(--theme-primary-light);
+} */
+
+/* If using Navbar bg="light" */
+/* .navbar-light .navbar-nav .nav-link.active {
+    color: var(--theme-primary);
+}
+.navbar-light .navbar-nav .nav-link:hover {
+  color: var(--theme-primary-dark);
+} */ 
