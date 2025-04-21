@@ -15,11 +15,11 @@ const BlogDetail = () => {
   useEffect(() => {
     const fetchBlogDetail = async () => {
       try {
-        const response = await api.get(`/api/blogs/${id}/`);
+        const response = await api.get(`/api/blog/${id}/`);
         setBlog(response.data);
         
         // Fetch related blogs (same category or similar tags)
-        const relatedResponse = await api.get('/api/blogs/');
+        const relatedResponse = await api.get('/api/blog/');
         // Filter out the current blog and limit to 3 related posts
         const filtered = relatedResponse.data
           .filter(item => item.id !== parseInt(id))
@@ -105,13 +105,11 @@ const BlogDetail = () => {
               </div>
             </header>
 
-            <div className="blog-content">
-              {blog.content && blog.content.split('\n').map((paragraph, index) => (
-                <p key={index} className="mb-4">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
+            <div
+              className="blog-content"
+              dangerouslySetInnerHTML={{ __html: blog.content }}
+            ></div>
+
 
             {blog.tags && blog.tags.length > 0 && (
               <div className="blog-tags mt-4">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "../api";
 import { Container, Row, Col, Card, Form, Button, Spinner, Modal } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import Layout from "../components/Layout";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
@@ -179,11 +180,12 @@ const Product = () => {
                                                 {product.description ? product.description.substring(0, 80) + '...' : 'No description available.'} 
                                             </Card.Text>
                                             <Button 
-                                                variant="dark"
-                                                className="w-100 mt-auto btn-hover-teal"
-                                                onClick={() => handleShowDetails(product)}
+                                                as={Link} 
+                                                to={`/product/${product.id}`} 
+                                                variant="dark" 
+                                                className="w-100 btn-hover-teal"
                                             >
-                                                View Details
+                                                Add to Cart
                                             </Button>
                                         </Card.Body>
                                     </Card>

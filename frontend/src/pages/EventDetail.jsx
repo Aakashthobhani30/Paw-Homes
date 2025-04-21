@@ -170,7 +170,7 @@ const EventDetail = () => {
                     onMouseOut={(e) => e.target.style.backgroundColor = '#212529'}
                     onClick={handleRegister}
                   >
-                    Register for this Event
+                    Buy Tickets
                   </Button>
                 )}
                 {isEventPast && (

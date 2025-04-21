@@ -40,9 +40,9 @@ def event(request, **kwargs):
         if serializer.is_valid():
             for event in Event.objects.all(): 
                 image_path = str(event.image)
-                if image_path.startswith("uploads/"):
-                    event.image = image_path.replace("uploads/", "")
-                    event.save()
+                # # if image_path.startswith("uploads/"):
+                #     event.image = image_path.replace("uploads/", "")
+            event.save()
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

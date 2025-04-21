@@ -33,7 +33,7 @@ const Login = () => {
         const user = userRes.data;
         localStorage.setItem('user', JSON.stringify(user));
         
-        navigate("/profile");
+        navigate("/");
       
         
     } catch (error) {

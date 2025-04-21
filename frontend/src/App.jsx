@@ -13,7 +13,8 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Blog from './pages/Blog'
 import BlogDetail from './pages/BlogDetail'
-// import Profile from './pages/Profile'
+import ServiceDetail from './pages/ServicesDetail'
+import ProductDetail from './pages/ProductDetail'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -62,7 +63,8 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog/:id" element={<BlogDetail />} />
-      {/* <Route path="/profile" element={<Profile />} /> */}
+      <Route path="/services/:id" element={<ServiceDetail />} />
+      <Route path="/product/:id" element={<ProductDetail />} />
     </Routes>
     </BrowserRouter>
   )
