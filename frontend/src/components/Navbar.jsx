@@ -7,7 +7,6 @@ const NAVBAR_BG_COLOR = '#0b7e7e'; // Even darker shade
 
 const Navbar = () => {
   const [cartItemsCount, setCartItemsCount] = useState(0); // Sample
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Sample
   const accessToken = localStorage.getItem('access');
 
   return (
@@ -43,7 +42,7 @@ const Navbar = () => {
               )}
             </Nav.Link>
             {accessToken ? (
-              <Nav.Link as={Link} to="/login">Profile</Nav.Link>
+              <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
             ) : (
               <Nav.Link as={Link} to="/login">Login</Nav.Link>
             )}

@@ -90,7 +90,7 @@ const About = () => {
             </p>
             <div className="contact-info text-left">
               <p><strong>📍 Location:</strong> Comming Soon....</p>
-              <p><strong>📞 Phone:</strong> (+91)9904127855</p>
+              <p><strong>📞 Phone:</strong> (+91) 9904127855</p>
               <p><strong>✉️ Email:</strong> info@pawandhomes.com</p>
               <p><strong>⏰ Working Hours:</strong><br /> Monday-Friday: 9:00 AM - 8:00 PM
               <br />Saturday-Sunday: 10:00 AM - 6:00 PM</p>

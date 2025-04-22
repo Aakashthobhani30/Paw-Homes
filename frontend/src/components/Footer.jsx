@@ -52,7 +52,7 @@ const Footer = () => {
                   📍 Comming Soon.....
                 </li>
                 <li>
-                  📞 (+91)9904127855
+                  📞 (+91) 9904127855
                 </li>
                 <li>
                   ✉️ info@pawandhomes.com
