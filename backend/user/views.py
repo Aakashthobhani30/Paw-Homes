@@ -35,7 +35,7 @@ def get_user_data(request):
         "first_name": user.first_name,
         "last_name": user.last_name,
     }
-    print("user_data :::::::::::::", user_data)
+    print("user_data ", user_data)
     return Response(user_data)
 
 # @api_view(['GET'])

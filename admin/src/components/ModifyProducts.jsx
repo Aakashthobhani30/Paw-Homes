@@ -94,7 +94,7 @@ const ModifyProduct = ({ method }) => {
     const formData = new FormData();
     formData.append("name", productName);
     formData.append("description", productDescription);
-    formData.append("type", productType);
+    formData.append("brand", brand);
     formData.append("duration", productDuration);
     formData.append("price", productPrice);
     formData.append("status", productStatus);
@@ -270,7 +270,7 @@ const ModifyProduct = ({ method }) => {
                     }
                   >
                     <label className="form-label" htmlFor="type">
-                      Type
+                      Brand
                     </label>
                     <div className="mb-6">
                       <select
@@ -280,32 +280,14 @@ const ModifyProduct = ({ method }) => {
                         onChange={(e) => setProductType(e.target.value)}
                         required
                       >
-                        <option value={"Physical"}>Physical</option>
-                        <option value={"Digital"}>Digital</option>
+                        <option value={"Select Brand"}>Select Brand</option>
+                        <option value={"Royal Canin"}>Royal Canin</option>
+                        <option value={"Drools"}>Drools</option>
+                        <option value={"Himalaya"}>Himalaya</option>
+                        <option value={"BarkButler"}>BarkButler</option>
                       </select>
                     </div>
                   </div>
-                  {productType === "Digital" && (
-                    <div className="col-4 mb-4">
-                      <label className="form-label" htmlFor="duration">
-                        Duration
-                      </label>
-                      <div className="mb-6">
-                        <select
-                          id="duration"
-                          className="form-select"
-                          value={productDuration}
-                          onChange={(e) => setProductDuration(e.target.value)}
-                          required
-                        >
-                          <option value="">-- Select Duration --</option>
-                          <option value={"Month"}>Month</option>
-                          <option value={"Year"}>Year</option>
-                          <option value={"Lifetime"}>Lifetime</option>
-                        </select>
-                      </div>
-                    </div>
-                  )}
                 </div>
 
                 <div className="mb-4">

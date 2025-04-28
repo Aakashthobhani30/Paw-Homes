@@ -13,7 +13,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     price = models.IntegerField()
-    type = models.CharField(max_length=100)
+    brand = models.CharField(max_length=100)
     duration = models.CharField(max_length=100, default="")
     image = models.ImageField(upload_to='products/')
     status = models.IntegerField()

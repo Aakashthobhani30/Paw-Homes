@@ -1,44 +1,39 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from "../api";
-import { ACCESS_TOKEN } from "../constants";
-import { REFRESH_TOKEN } from "../constants";
+import { setTokens } from "../utils/auth";
 
 const Login = () => {
   
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     setLoading(true);
+    setError('');
     e.preventDefault();
 
     try {
       const res = await api.post("/api/token/", { username, password });
       
-        localStorage.setItem(ACCESS_TOKEN, res.data.access);
-        localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+      // Store both access and refresh tokens
+      setTokens(res.data.access, res.data.refresh);
 
-        const userRes = await api.get("/api/user/", {
-          headers: { Authorization: `Bearer ${res.data.access}` },
-        });
+      // Get user data
+      const userRes = await api.get("/api/user/", {
+        headers: { Authorization: `Bearer ${res.data.access}` },
+      });
 
-        const user = userRes.data;
-        localStorage.setItem('user', JSON.stringify(user));
-        
-        navigate("/");
+      const user = userRes.data;
+      localStorage.setItem('user', JSON.stringify(user));
       
-        
+      navigate("/");
     } catch (error) {
-      console.log("Error Details:", error);
-      alert(error.response?.data?.detail || "Something went wrong");
+      console.error("Login error:", error);
+      setError(error.response?.data?.detail || "Invalid credentials. Please try again.");
     } finally {
       setLoading(false);
     }

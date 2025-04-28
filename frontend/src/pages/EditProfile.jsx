@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Spinner, Button, Alert, Form } from 'react-b
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import api from "../api";
-import { ACCESS_TOKEN } from "../constants";
+import { clearTokens } from "../utils/auth";
 
 const THEME_COLOR = '#0fa8a8';
 
@@ -27,15 +27,12 @@ const EditProfile = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const token = localStorage.getItem(ACCESS_TOKEN);
-      const response = await api.get("/api/user/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await api.get("/api/user/");
       setUser(response.data);
       setLoading(false);
     } catch (error) {
       if (error.response?.status === 401) {
-        localStorage.clear();
+        clearTokens();
         window.location.href = '/login';
       }
       setError('Failed to load profile data');
@@ -58,16 +55,13 @@ const EditProfile = () => {
     setSuccess('');
     
     try {
-      const token = localStorage.getItem(ACCESS_TOKEN);
-      await api.put("/api/user/", user, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await api.put("/api/user/", user);
       setSuccess('Profile updated successfully!');
       setTimeout(() => {
         navigate('/profile');
       }, 2000);
     } catch (error) {
-      setError('Failed to update profile. Please try again.');
+      setError(error.response?.data?.detail || 'Failed to update profile. Please try again.');
     } finally {
       setLoading(false);
     }

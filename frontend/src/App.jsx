@@ -17,6 +17,7 @@ import ServiceDetail from './pages/ServicesDetail'
 import ProductDetail from './pages/ProductDetail'
 import Profile from './pages/Profile'
 import EditProfile from './pages/EditProfile'
+import Cart from './pages/Cart'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -69,6 +70,7 @@ function App() {
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/edit-profile" element={<EditProfile />} />
+      <Route path="/cart" element={<Cart />} />
     </Routes>
     </BrowserRouter>
   )
