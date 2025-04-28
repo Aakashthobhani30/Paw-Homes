@@ -15,6 +15,8 @@ const Services = () => {
   const [dayFilter, setDayFilter] = useState('');
 
   useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top on page load
+  
     const fetchServices = async () => {
       setIsLoading(true);
       setError(null);
@@ -22,18 +24,20 @@ const Services = () => {
         const { data } = await api.get('/api/services/');
         setServices(data);
       } catch (err) {
-        if (error.response?.status===401)
-          (localStorage.clear(),
-      window.location.reload)
+        if (err.response?.status === 401) {
+          localStorage.clear();
+          window.location.reload();
+        }
         console.error('Error fetching services:', err);
         setError('Failed to load services. Please try again later.');
       } finally {
         setIsLoading(false);
       }
     };
-
+  
     fetchServices();
   }, []);
+  
 
   const filterAndSearch = (list) => {
     return list.filter(service => {

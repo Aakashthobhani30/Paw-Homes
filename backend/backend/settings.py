@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'adoption',
     'corsheaders',
     'herosection',
+    'cart',
 ]
 
 MIDDLEWARE = [

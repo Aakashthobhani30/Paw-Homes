@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/adoption/', include("adoption.urls")),
     path('api/user/', include("user.urls")),
     path('api/hero/', include("herosection.urls")),
+    path('api/cart/', include("cart.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

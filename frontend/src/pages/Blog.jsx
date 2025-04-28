@@ -13,6 +13,7 @@ const Blog = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    window.scrollTo(0, 0); // <-- Scroll to top when page loads
     const fetchBlogs = async () => {
       try {
         const response = await api.get('/api/blog/');
@@ -24,9 +25,10 @@ const Blog = () => {
         setLoading(false);
       }
     };
-
+  
     fetchBlogs();
   }, []);
+  
 
   const renderContent = () => {
     if (loading) {

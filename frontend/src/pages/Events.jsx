@@ -16,6 +16,8 @@ const Events = () => {
   const [dateFilter, setDateFilter] = useState('');
 
   useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top on page load
+  
     const fetchEvents = async () => {
       setIsLoading(true);
       setError(null);
@@ -23,10 +25,10 @@ const Events = () => {
         const { data } = await api.get('/api/events/');
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-
+  
         const upcoming = [];
         const past = [];
-
+  
         data.forEach(event => {
           const eventDate = new Date(event.date);
           if (eventDate >= today) {
@@ -35,22 +37,24 @@ const Events = () => {
             past.push(event);
           }
         });
-
+  
         setUpcomingEvents(upcoming);
         setPastEvents(past);
       } catch (err) {
-        if (error.response?.status===401)
-          (localStorage.clear(),
-      window.location.reload)
+        if (err.response?.status === 401) {
+          localStorage.clear();
+          window.location.reload();
+        }
         console.error('Error fetching events:', err);
         setError('Failed to load events. Please try again later.');
       } finally {
         setIsLoading(false);
       }
     };
-
+  
     fetchEvents();
   }, []);
+  
 
   const filterAndSearch = (list) => {
     return list.filter(event => {

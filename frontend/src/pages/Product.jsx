@@ -20,22 +20,27 @@ const Product = () => {
     const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
+        window.scrollTo(0, 0); // Scroll to top on page load
+    
         const fetchProducts = async () => {
             setIsLoading(true);
             try {
                 const { data } = await api.get("/api/product/");
                 setProducts(data);
             } catch (error) {
-                if (error.response?.status===401)
-                    (localStorage.clear(),
-                window.location.reload)
+                if (error.response?.status === 401) {
+                    localStorage.clear();
+                    window.location.reload();
+                }
                 console.error("Error fetching products:", error);
             } finally {
                 setIsLoading(false);
             }
         };
+        
         fetchProducts();
     }, []);
+    
 
     const filterProducts = () => {
         return products.filter(product => {

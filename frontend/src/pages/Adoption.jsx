@@ -22,13 +22,15 @@ const Adoption = () => {
     useEffect(() => {
         const fetchPets = async () => {
             setIsLoading(true);
+            window.scrollTo(0, 0); // <-- Scroll to top when fetching starts
             try {
                 const { data } = await api.get("/api/adoption/");
                 setPets(data);
             } catch (error) {
-                if (error.response?.status===401)
-                    (localStorage.clear(),
-                window.location.reload)
+                if (error.response?.status === 401) {
+                    localStorage.clear();
+                    window.location.reload();
+                }
                 console.error("Error fetching pets:", error);
             } finally {
                 setIsLoading(false);
@@ -36,6 +38,7 @@ const Adoption = () => {
         };
         fetchPets();
     }, []);
+    
 
     const filterPets = () => {
         return pets.filter(pet => {

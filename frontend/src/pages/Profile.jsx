@@ -15,7 +15,7 @@ const Profile = () => {
     email: '',
     first_name: '',
     last_name: '',
-    phone_number: '',
+    date_joined: '',
     address: '',
   });
   const [orders, setOrders] = useState([]);
@@ -213,14 +213,14 @@ const Profile = () => {
             <div className="text-center mb-4">
               <div className="profile-avatar mb-3">
                 <img 
-                  src="https://via.placeholder.com/150"
+                  src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
                   alt="Profile"
                   className="rounded-circle"
                   style={{ width: '150px', height: '150px', objectFit: 'cover', border: `4px solid ${THEME_COLOR}` }}
                 />
               </div>
               <h2 className="h3 mb-0">{user.first_name} {user.last_name}</h2>
-              <p className="text-muted">{user.email}</p>
+              <p className="text-muted">{user.username}</p>
             </div>
 
             <div className="profile-info">
@@ -240,13 +240,13 @@ const Profile = () => {
               </Row>
 
               <div className="mb-3">
-                <label className="form-label fw-bold">Email</label>
-                <p className="mb-0">{user.email}</p>
+                <label className="form-label fw-bold">Username</label>
+                <p className="mb-0">{user.username}</p>
               </div>
 
               <div className="mb-3">
-                <label className="form-label fw-bold">Phone Number</label>
-                <p className="mb-0">{user.phone_number}</p>
+                <label className="form-label fw-bold">Joined</label>
+                <p className="mb-0">{user.date_joined}</p>
               </div>
 
               <div className="mb-4">
@@ -255,13 +255,13 @@ const Profile = () => {
               </div>
 
               <div className="text-center">
-                <Button 
+                {/* <Button 
                   variant="dark"
                   className="btn-hover-teal me-2"
                   onClick={() => navigate('/edit-profile')}
                 >
                   Edit Profile
-                </Button>
+                </Button> */}
                 <Button 
                   variant="outline-danger"
                   onClick={() => setShowDeleteModal(true)}

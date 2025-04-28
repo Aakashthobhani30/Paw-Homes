@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react'; 
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import Layout from '../components/Layout';
 
 const THEME_COLOR = '#0fa8a8';
 
 const About = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const aboutSections = [
     {
       title: "Our Story",
