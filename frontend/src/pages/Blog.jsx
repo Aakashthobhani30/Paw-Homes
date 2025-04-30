@@ -123,7 +123,7 @@ const Blog = () => {
     <Layout>
       <div style={{ backgroundColor: THEME_COLOR }} className="text-white text-center py-5 mb-4">
         <Container>
-          <h1 className="display-4 fw-bold">Our Blog 🐾</h1>
+          <h1 className="display-4 fw-bold white-paw-emoji">Our Blog 🐾</h1>
           <p className="lead">Stay updated with the latest news, tips, and stories from Paw & Homes</p>
         </Container>
       </div>

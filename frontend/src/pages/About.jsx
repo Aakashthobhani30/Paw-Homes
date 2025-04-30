@@ -48,7 +48,7 @@ const About = () => {
     <Layout>
       <div style={{ backgroundColor: THEME_COLOR }} className="text-white text-center py-5 mb-4">
         <Container>
-          <h1 className="display-4 fw-bold">About Paw & Homes 🐾</h1>
+          <h1 className="display-4 fw-bold white-paw-emoji">About Paw & Homes 🐾</h1>
           <p className="lead">Creating Happy Tales, One Paw at a Time</p>
         </Container>
       </div>

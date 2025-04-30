@@ -22,13 +22,19 @@ const ModifyService = ({ method }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // Strip HTML to plain text
+  const stripHtml = (html) => {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = html;
+    return tempDiv.textContent || tempDiv.innerText || "";
+  };
+
   const config = {
     readonly: false,
     height: 400,
     placeholder: "Write service description...",
     theme: "dark",
-    buttons:
-      "bold,italic,underline,strikethrough,fontsize,font,brush,paragraph,|,ul,ol,|,link,hr,table,|,align,undo,redo,preview,fullscreen,lineHeight,image",
+    buttons: "", // remove all toolbar buttons
     showXPathInStatusbar: false,
   };
 
@@ -53,7 +59,7 @@ const ModifyService = ({ method }) => {
       const res = await api.get(`/api/services/${id}/`);
       const data = res.data;
       setServiceTitle(data.name);
-      setContent(data.descriception);
+      setContent(stripHtml(data.descriception));
       setSelectedCategory(data.service_category_id);
       setPrice(data.price);
       setPreviewImage(data.image ? `${import.meta.env.VITE_API_URL}${data.image}` : "");
@@ -246,7 +252,7 @@ const ModifyService = ({ method }) => {
                   <JoditEditor
                     config={config}
                     value={content}
-                    onBlur={(newContent) => setContent(newContent)}
+                    onBlur={(newContent) => setContent(stripHtml(newContent))}
                   />
                 </div>
 

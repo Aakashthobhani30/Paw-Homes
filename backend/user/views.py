@@ -96,5 +96,6 @@ def get_specific_user_data(request, user_id):
         "last_name": user.last_name,
         "email": user.email,
         "last_login": user.last_login,
+        "date_joined": user.date_joined,
     }
     return Response(data)

@@ -66,7 +66,7 @@ const Profile = () => {
 
   const handleLogout = () => {
     clearTokens();
-    window.location.href = '/login';
+    window.location.href = '/';
   };
 
   const handleDeleteProfile = async () => {
@@ -89,18 +89,7 @@ const Profile = () => {
     });
   };
 
-  // const getStatusBadge = (status) => {
-  //   const statusColors = {
-  //     completed: 'success',
-  //     pending: 'warning',
-  //     cancelled: 'danger'
-  //   };
-  //   return (
-  //     <span className={`badge bg-${statusColors[status] || 'secondary'}`}>
-  //       {status.charAt(0).toUpperCase() + status.slice(1)}
-  //     </span>
-  //   );
-  // };
+  
 
   const renderOrderStats = () => (
     <Row className="mb-4">
@@ -112,30 +101,6 @@ const Profile = () => {
           </Card.Body>
         </Card>
       </Col>
-      {/* <Col md={3}>
-        <Card className="text-center h-100">
-          <Card.Body>
-            <h3 className="mb-0 text-success">{orderStats.completed}</h3>
-            <p className="text-muted mb-0">Completed</p>
-          </Card.Body>
-        </Card>
-      </Col>
-      <Col md={3}>
-        <Card className="text-center h-100">
-          <Card.Body>
-            <h3 className="mb-0 text-warning">{orderStats.pending}</h3>
-            <p className="text-muted mb-0">Pending</p>
-          </Card.Body>
-        </Card>
-      </Col>
-      <Col md={3}>
-        <Card className="text-center h-100">
-          <Card.Body>
-            <h3 className="mb-0 text-danger">{orderStats.cancelled}</h3>
-            <p className="text-muted mb-0">Cancelled</p>
-          </Card.Body>
-        </Card>
-      </Col> */}
     </Row>
   );
 
@@ -246,7 +211,7 @@ const Profile = () => {
 
               <div className="mb-3">
                 <label className="form-label fw-bold">Joined</label>
-                <p className="mb-0">{user.date_joined}</p>
+                <p className="mb-0">{formatDate(user.date_joined)}</p>
               </div>
 
               <div className="mb-4">
@@ -255,22 +220,16 @@ const Profile = () => {
               </div>
 
               <div className="text-center">
-                {/* <Button 
-                  variant="dark"
-                  className="btn-hover-teal me-2"
-                  onClick={() => navigate('/edit-profile')}
-                >
-                  Edit Profile
-                </Button> */}
-                <Button 
-                  variant="outline-danger"
+                <Button
+                  variant="danger"
                   onClick={() => setShowDeleteModal(true)}
                   className="me-2"
                 >
                   Delete Profile
                 </Button>
+
                 <Button 
-                  variant="outline-secondary"
+                  variant="dark btn-adopt"
                   onClick={handleLogout}
                 >
                   Logout

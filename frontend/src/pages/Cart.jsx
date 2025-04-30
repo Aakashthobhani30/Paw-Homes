@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Table, Form, Alert, Spinner } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import api from "../api";
 
@@ -11,6 +11,9 @@ const Cart = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [total, setTotal] = useState(0);
+  const [purchaseSuccess, setPurchaseSuccess] = useState(false);
+  const [quantityUpdateLoading, setQuantityUpdateLoading] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCartItems();
@@ -29,28 +32,68 @@ const Cart = () => {
   };
 
   const calculateTotal = (items) => {
-    const sum = items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    const sum = items.reduce((acc, item) => acc + parseFloat(item.total_amount), 0);
     setTotal(sum);
   };
 
   const handleQuantityChange = async (itemId, newQuantity) => {
-    if (newQuantity < 1) return;
+    // Validate quantity input
+    if (newQuantity < 1) newQuantity = 1;
+    if (newQuantity > 99) newQuantity = 99; // Set a reasonable max limit
+    
+    // Optimize UI by updating locally first
+    const updatedItems = cartItems.map(item => 
+      item.id === itemId ? { 
+        ...item, 
+        quantity: newQuantity,
+        total_amount: (parseFloat(item.type === 'product' ? item.product_details?.price : item.event_details?.price) * newQuantity).toFixed(2)
+      } : item
+    );
+    
+    setCartItems(updatedItems);
+    calculateTotal(updatedItems);
+    
+    // Show loading state for this specific item
+    setQuantityUpdateLoading(prev => ({ ...prev, [itemId]: true }));
     
     try {
-      await api.put(`/api/cart/${itemId}/`, { quantity: newQuantity });
-      const updatedItems = cartItems.map(item => 
-        item.id === itemId ? { ...item, quantity: newQuantity } : item
-      );
-      setCartItems(updatedItems);
-      calculateTotal(updatedItems);
+      // Find the current item to get its type
+      const currentItem = cartItems.find(item => item.id === itemId);
+      if (!currentItem) {
+        throw new Error('Cart item not found');
+      }
+
+      await api.patch(`/api/cart/update/${itemId}/`, { 
+        quantity: newQuantity,
+        type: currentItem.type // Include the type field from the current item
+      });
+      
+      console.log(`Cart item ${itemId} quantity updated to ${newQuantity}`);
     } catch (error) {
-      setError('Failed to update quantity');
+      console.error('Cart update error:', error.response ? error.response.data : error.message);
+      setError('Failed to update quantity. Please try again.');
+      fetchCartItems(); // Refetch to ensure data consistency
+    } finally {
+      // Hide loading state
+      setQuantityUpdateLoading(prev => ({ ...prev, [itemId]: false }));
     }
   };
 
+  // Debounce function to prevent excessive API calls
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return function(...args) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => func.apply(this, args), delay);
+    };
+  };
+
+  // Use debounced version for input changes
+  const debouncedQuantityChange = debounce(handleQuantityChange, 500);
+
   const handleRemoveItem = async (itemId) => {
     try {
-      await api.delete(`/api/cart/${itemId}/`);
+      await api.delete(`/api/cart/remove/${itemId}/`);
       const updatedItems = cartItems.filter(item => item.id !== itemId);
       setCartItems(updatedItems);
       calculateTotal(updatedItems);
@@ -60,8 +103,8 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
-    // Implement checkout logic here
-    console.log('Proceeding to checkout...');
+    // Navigate to checkout page instead of completing purchase directly
+    navigate('/checkout');
   };
 
   const renderContent = () => {
@@ -79,6 +122,14 @@ const Cart = () => {
       return (
         <Alert variant="danger" className="text-center">
           {error}
+        </Alert>
+      );
+    }
+
+    if (purchaseSuccess) {
+      return (
+        <Alert variant="success" className="text-center">
+          Purchase completed successfully! Redirecting...
         </Alert>
       );
     }
@@ -107,7 +158,7 @@ const Cart = () => {
         <Table responsive className="cart-table">
           <thead>
             <tr>
-              <th>Product</th>
+              <th>Item</th>
               <th>Price</th>
               <th>Quantity</th>
               <th>Total</th>
@@ -120,18 +171,22 @@ const Cart = () => {
                 <td>
                   <div className="d-flex align-items-center">
                     <img
-                      src={item.image}
-                      alt={item.name}
+                      src={`${import.meta.env.VITE_API_URL}${item.type === 'product' ? item.product_details?.image : item.event_details?.image}`}
+                      alt={item.type === 'product' ? item.product_details?.name : item.event_details?.name}
                       className="cart-item-image me-3"
                       style={{ width: '80px', height: '80px', objectFit: 'cover' }}
                     />
                     <div>
-                      <h6 className="mb-0">{item.name}</h6>
-                      <small className="text-muted">{item.description}</small>
+                      <h6 className="mb-0">{item.type === 'product' ? item.product_details?.name : item.event_details?.name}</h6>
+                      <small className="text-muted">
+                        {item.type === 'product' 
+                          ? item.product_details?.description 
+                          : `${item.event_details?.date} at ${item.event_details?.time} - ${item.event_details?.location}`}
+                      </small>
                     </div>
                   </div>
                 </td>
-                <td>${item.price.toFixed(2)}</td>
+                <td>₹{parseFloat(item.type === 'product' ? item.product_details?.price : item.event_details?.price).toFixed(2)}</td>
                 <td>
                   <div className="d-flex align-items-center">
                     <Button
@@ -139,33 +194,48 @@ const Cart = () => {
                       size="sm"
                       onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
                       className="quantity-btn"
+                      disabled={item.quantity <= 1 || quantityUpdateLoading[item.id]}
                     >
                       -
                     </Button>
-                    <Form.Control
-                      type="number"
-                      value={item.quantity}
-                      onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value))}
-                      min="1"
-                      className="quantity-input mx-2"
-                      style={{ width: '60px' }}
-                    />
+                    <div className="position-relative mx-2">
+                      <Form.Control
+                        type="number"
+                        value={item.quantity}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value) || 1;
+                          debouncedQuantityChange(item.id, value);
+                        }}
+                        min="1"
+                        max="99"
+                        className="quantity-input"
+                        style={{ width: '60px' }}
+                        disabled={quantityUpdateLoading[item.id]}
+                      />
+                      {quantityUpdateLoading[item.id] && (
+                        <div className="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75">
+                          <Spinner animation="border" size="sm" />
+                        </div>
+                      )}
+                    </div>
                     <Button
                       variant="outline-secondary"
                       size="sm"
                       onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
                       className="quantity-btn"
+                      disabled={item.quantity >= 99 || quantityUpdateLoading[item.id]}
                     >
                       +
                     </Button>
                   </div>
                 </td>
-                <td>${(item.price * item.quantity).toFixed(2)}</td>
+                <td>₹{parseFloat(item.total_amount).toFixed(2)}</td>
                 <td>
                   <Button
                     variant="outline-danger"
                     size="sm"
                     onClick={() => handleRemoveItem(item.id)}
+                    disabled={quantityUpdateLoading[item.id]}
                   >
                     Remove
                   </Button>
@@ -180,7 +250,7 @@ const Cart = () => {
             <div className="d-flex justify-content-between align-items-center">
               <div>
                 <h5 className="mb-0">Total:</h5>
-                <h3 className="mb-0" style={{ color: THEME_COLOR }}>${total.toFixed(2)}</h3>
+                <h3 className="mb-0" style={{ color: THEME_COLOR }}>₹{total.toFixed(2)}</h3>
               </div>
               <div>
                 <Button
@@ -263,4 +333,4 @@ const Cart = () => {
   );
 };
 
-export default Cart; 
+export default Cart;

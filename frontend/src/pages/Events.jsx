@@ -133,7 +133,7 @@ const Events = () => {
     <Layout>
       <div style={{ backgroundColor: THEME_COLOR }} className="text-white text-center py-5 mb-4">
         <Container>
-          <h1 className="display-4 fw-bold">Pet Events & Activities 🐾</h1>
+          <h1 className="display-4 fw-bold white-paw-emoji">Pet Events & Activities 🐾</h1>
           <p className="lead">Join us for exciting pet-related events and make new furry friends!</p>
         </Container>
       </div>

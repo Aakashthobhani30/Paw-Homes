@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'herosection',
     'cart',
+    'order',
 ]
 
 MIDDLEWARE = [

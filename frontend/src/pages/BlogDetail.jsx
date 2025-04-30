@@ -179,17 +179,6 @@ const BlogDetail = () => {
               </Row>
             </section>
           )}
-
-          <div className="mt-4">
-            <Button 
-              as={Link} 
-              to="/blog" 
-              variant="outline-dark" 
-              className="w-100"
-            >
-              Back to Blogs
-            </Button>
-          </div>
         </motion.div>
 
         <style jsx>{`

@@ -46,15 +46,22 @@ const ProductDetail = () => {
     fetchProductDetail();
   }, [id]);
 
-  const handleAddToCart = () => {
-    // Implement cart functionality here
-    console.log(`Added ${quantity} of ${product.name} to cart`);
-    setAddToCartSuccess(true);
-    
-    // Reset the success message after 3 seconds
-    setTimeout(() => {
-      setAddToCartSuccess(false);
-    }, 3000);
+  const handleAddToCart = async () => {
+    try {
+      await api.post('/api/cart/add/', {
+        product: product.id,
+        quantity: quantity,
+        type: 'product'
+      });
+      setAddToCartSuccess(true);
+      
+      // Reset the success message after 3 seconds
+      setTimeout(() => {
+        setAddToCartSuccess(false);
+      }, 3000);
+    } catch (error) {
+      setError('Failed to add item to cart');
+    }
   };
 
   if (loading) {

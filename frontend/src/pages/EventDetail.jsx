@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Spinner, Image, Badge, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Spinner, Image, Badge, Alert, Form } from 'react-bootstrap';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import api from '../api';
 import Layout from '../components/Layout';
@@ -13,6 +13,8 @@ const EventDetail = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [registerStatus, setRegisterStatus] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [addToCartSuccess, setAddToCartSuccess] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -67,6 +69,24 @@ const EventDetail = () => {
     // You might want to redirect or show a success message
   };
 
+  const handleAddToCart = async () => {
+    try {
+      await api.post('/api/cart/add/', {
+        event: event.id,
+        quantity: quantity,
+        type: 'event'
+      });
+      setAddToCartSuccess(true);
+      
+      // Reset the success message after 3 seconds
+      setTimeout(() => {
+        setAddToCartSuccess(false);
+      }, 3000);
+    } catch (error) {
+      setError('Failed to add tickets to cart');
+    }
+  };
+
   if (isLoading) {
     return (
       <Layout>
@@ -104,6 +124,7 @@ const EventDetail = () => {
       </Layout>
     );
   }
+  
 
   const isEventPast = event.date ? new Date(event.date) < new Date().setHours(0, 0, 0, 0) : false;
 
@@ -121,6 +142,15 @@ const EventDetail = () => {
             Successfully registered for {event.name}!
           </Alert>
         )}
+         <div className="mb-4 text-start">
+                 <Button 
+            as={Link} 
+            to="/events" 
+            variant="outline-dark"
+          >
+            ← Back to Events
+          </Button>
+        </div>
         
         <Row>
           <Col lg={8}>
@@ -181,17 +211,30 @@ const EventDetail = () => {
               </Card.Body>
             </Card>
 
-            <Button 
-              as={Link} 
-              to="/events" 
-              variant="outline-dark" 
-              className="w-100"
-            >
-              Back to Events
-            </Button>
+           
           </Col>
         </Row>
       </Container>
+      <Container className="my-5">
+  <Card className="shadow-sm">
+    <Card.Body>
+      <h4 className="mb-3">Terms & Conditions</h4>
+      <ul className="list-unstyled text-muted">
+        <li>• Please carry a valid ID proof along with you.</li>
+        <li>• No refunds on purchased ticket are possible, even in case of any rescheduling.</li>
+        <li>• Security procedures, including frisking remain the right of the management.</li>
+        <li>• Please follow all venue rules and instructions from staff.</li>
+        <li>• The organizer is not responsible for lost or stolen items.</li>
+        <li>• People in an inebriated state may not be allowed entry.</li>
+        <li>• Organizers hold the right to deny late entry to the event.</li>
+        <li>• For the safety and enjoyment of all guests, the following items are strictly prohibited inside the venue:
+              Weapons, knives, firearms, fireworks, helmets, laser devices, bottles, and musical instruments.
+              Possession of any such items may result in immediate removal from the venue, with or without the owner.</li>
+      </ul>
+    </Card.Body>
+  </Card>
+</Container>
+
     </Layout>
   );
 };

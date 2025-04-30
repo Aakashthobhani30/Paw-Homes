@@ -125,7 +125,7 @@ function Home() {
                             </div>
 
                             <div className="d-flex flex-row flex-nowrap overflow-auto pb-3 custom-scrollbar-bootstrap">
-                        {section.data.map((item, index) => (
+                        {section.data.slice(0, 5).map((item, index) => (
                                     <div key={item.id || index} className="me-3" style={{ minWidth: '18rem', maxWidth: '18rem' }}>
                                         <Card className="h-100 shadow-sm hover-shadow-lg transition-shadow duration-300 w-100">
                                             <Card.Img

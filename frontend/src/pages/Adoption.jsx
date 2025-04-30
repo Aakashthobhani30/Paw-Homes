@@ -77,7 +77,7 @@ const Adoption = () => {
             <div className="min-h-screen bg-light">
                 <div style={{ backgroundColor: THEME_COLOR }} className="text-white text-center py-5 mb-4">
                     <Container>
-                        <h1 className="display-4 fw-bold">Don't Buy Just Adopt 🐾</h1>
+                        <h1 className="display-4 fw-bold white-paw-emoji">Don't Buy Just Adopt 🐾</h1>
                         <p className="lead">Find Your Perfect Companion</p>
                     </Container>
                 </div>
@@ -87,7 +87,7 @@ const Adoption = () => {
                     <Card className="mb-4 p-3 shadow-sm filter-card">
                         <Form>
                             <Row className="g-3 align-items-center">
-                                <Col lg={4} md={12}>
+                                <Col lg={3} md={12}>
                                     <Form.Control
                                         type="text"
                                         placeholder="Search by name or breed..."
@@ -97,7 +97,7 @@ const Adoption = () => {
                                         className="filter-focus"
                                     />
                                 </Col>
-                                <Col lg={2} md={3} sm={6}>
+                                <Col lg={3} md={3} sm={6}>
                                     <Form.Select
                                         value={filters.breed}
                                         onChange={(e) => setFilters({...filters, breed: e.target.value})}
@@ -110,7 +110,7 @@ const Adoption = () => {
                                         ))}
                                     </Form.Select>
                                 </Col>
-                                <Col lg={2} md={3} sm={6}>
+                                <Col lg={3} md={3} sm={6}>
                                     <Form.Select
                                         value={filters.age}
                                         onChange={(e) => setFilters({...filters, age: e.target.value})}
@@ -124,20 +124,7 @@ const Adoption = () => {
                                         <option value="senior">Senior (10+ yrs)</option>
                                     </Form.Select>
                                 </Col>
-                                <Col lg={2} md={3} sm={6}>
-                                    <Form.Select
-                                        value={filters.size}
-                                        onChange={(e) => setFilters({...filters, size: e.target.value})}
-                                        aria-label="Filter by size"
-                                        className="filter-focus"
-                                    >
-                                        <option value="all">All Sizes</option>
-                                        <option value="small">Small</option>
-                                        <option value="medium">Medium</option>
-                                        <option value="large">Large</option>
-                                    </Form.Select>
-                                </Col>
-                                <Col lg={2} md={3} sm={6}>
+                                <Col lg={3} md={3} sm={6}>
                                     <Form.Select
                                         value={filters.gender}
                                         onChange={(e) => setFilters({...filters, gender: e.target.value})}

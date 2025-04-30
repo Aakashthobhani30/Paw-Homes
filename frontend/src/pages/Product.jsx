@@ -9,6 +9,7 @@ const THEME_COLOR = '#0fa8a8'; // Using the darker teal theme color
 
 const Product = () => {
     const [products, setProducts] = useState([]);
+    const [category, setCategory] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [filters, setFilters] = useState({
         category: "all",
@@ -37,7 +38,23 @@ const Product = () => {
                 setIsLoading(false);
             }
         };
+        const fetchCategory = async () => {
+            setIsLoading(true);
+            try {
+                const { data } = await api.get("/api/product/category/");
+                setCategory(data);
+            } catch (error) {
+                if (error.response?.status === 401) {
+                    localStorage.clear();
+                    window.location.reload();
+                }
+                console.error("Error fetching products:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
         
+        fetchCategory();
         fetchProducts();
     }, []);
     
@@ -46,7 +63,7 @@ const Product = () => {
         return products.filter(product => {
             const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                 (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()));
-            const matchesCategory = filters.category === "all" || product.category.id === filters.category.id;
+            const matchesCategory = filters.category === "all" || product.category.name === filters.category;
             
             // Price range filter
             let matchesPrice = true;
@@ -54,16 +71,16 @@ const Product = () => {
                 const price = parseFloat(product.price);
                 switch (filters.priceRange) {
                     case "under25":
-                        matchesPrice = price < 25;
+                        matchesPrice = price < 500;
                         break;
                     case "25to50":
-                        matchesPrice = price >= 25 && price <= 50;
+                        matchesPrice = price >= 500 && price <= 1000;
                         break;
                     case "50to100":
-                        matchesPrice = price > 50 && price <= 100;
+                        matchesPrice = price > 1000 && price <= 1500;
                         break;
                     case "over100":
-                        matchesPrice = price > 100;
+                        matchesPrice = price > 1500;
                         break;
                 }
             }
@@ -99,7 +116,7 @@ const Product = () => {
             {/* Hero Section */}
             <div style={{ backgroundColor: THEME_COLOR }} className="text-white text-center py-5 mb-4">
                 <Container>
-                    <h1 className="display-4 fw-bold">Pet Products & Supplies 🐾</h1>
+                    <h1 className="display-4 fw-bold white-paw-emoji">Pet Products & Supplies 🐾</h1>
                     <p className="lead">Everything your furry friend needs - from food to toys to accessories</p>
                 </Container>
             </div>
@@ -121,14 +138,14 @@ const Product = () => {
                             </Col>
                             <Col lg={3} md={6} sm={6}>
                                 <Form.Select
-                                    value={filters.category.id}
+                                    value={filters.category}
                                     onChange={(e) => setFilters({...filters, category: e.target.value})}
                                     aria-label="Filter by category"
                                     className="filter-focus"
                                 >
                                     <option value="all">All Categories</option>
-                                    {categories.map(category => (
-                                        <option key={category.id} value={category.id}>{category.id}</option>
+                                    {category.map(category => (
+                                        <option key={category.id} value={category.name}>{category.name}</option>
                                     ))}
                                 </Form.Select>
                             </Col>
@@ -179,7 +196,7 @@ const Product = () => {
                                                 <span className="product-price">₹{parseFloat(product.price).toFixed(2)}</span>
                                             </div>
                                             <div className="mb-2">
-                                                <span className="badge bg-info text-dark">{product.category.id}</span>
+                                                <span className="badge bg-info text-dark">{product.category.name}</span>
                                             </div>
                                             <Card.Text className="text-muted small flex-grow-1">
                                                 {product.description ? product.description.substring(0, 80) + '...' : 'No description available.'} 
@@ -190,7 +207,7 @@ const Product = () => {
                                                 variant="dark" 
                                                 className="w-100 btn-hover-teal"
                                             >
-                                                Add to Cart
+                                                View Details
                                             </Button>
                                         </Card.Body>
                                     </Card>
