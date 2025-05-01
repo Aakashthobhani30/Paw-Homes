@@ -5,7 +5,16 @@ import Layout from '../components/Layout';
 import api from '../api';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
-const THEME_COLOR = '#0fa8a8';
+const THEME_COLOR = '#00bcd4'; // Bright Aqua
+const THEME_COLOR_LIGHT = '#e0f7fa'; // Pale Aqua
+const THEME_COLOR_LIGHTER = '#ffca28'; // Sunny Yellow
+const BACKGROUND_COLOR = '#e0f7fa'; // Pale Aqua
+
+// Text colors
+const PRIMARY_TEXT = '#00bcd4'; // Bright Aqua
+const SECONDARY_TEXT = '#008ba3'; // Darker Aqua
+const LIGHT_TEXT = '#ffffff'; // White
+const LINK_COLOR = '#ffca28'; // Sunny Yellow
 
 const Services = () => {
   const [services, setServices] = useState([]);
@@ -176,6 +185,207 @@ const Services = () => {
       </Container>
 
       <style jsx global>{`
+        .services-container {
+          background-color: ${BACKGROUND_COLOR};
+          min-height: 100vh;
+          padding: 2rem 0;
+        }
+
+        .services-header {
+          background-color: ${PRIMARY_TEXT};
+          color: ${LIGHT_TEXT};
+          padding: 3rem 0;
+          margin-bottom: 2rem;
+        }
+
+        .services-title {
+          color: ${LIGHT_TEXT};
+          font-weight: 700;
+          margin-bottom: 1rem;
+        }
+
+        .services-subtitle {
+          color: ${LIGHT_TEXT};
+          opacity: 0.9;
+        }
+
+        .service-card {
+          background-color: ${LIGHT_TEXT};
+          border-radius: 8px;
+          box-shadow: 0 4px 15px rgba(0, 188, 212, 0.1);
+          transition: all 0.3s ease;
+          border: 1px solid ${THEME_COLOR_LIGHT};
+        }
+
+        .service-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 25px rgba(0, 188, 212, 0.2);
+          border-color: ${PRIMARY_TEXT};
+        }
+
+        .service-image {
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+          border-radius: 8px 8px 0 0;
+        }
+
+        .service-content {
+          padding: 1.5rem;
+        }
+
+        .service-title {
+          color: ${PRIMARY_TEXT};
+          font-weight: 600;
+          margin-bottom: 1rem;
+        }
+
+        .service-description {
+          color: ${SECONDARY_TEXT};
+          margin-bottom: 1rem;
+        }
+
+        .service-price {
+          color: ${PRIMARY_TEXT};
+          font-weight: 600;
+          font-size: 1.2rem;
+        }
+
+        .service-category {
+          background-color: ${THEME_COLOR_LIGHT};
+          color: ${PRIMARY_TEXT};
+          padding: 0.25rem 0.75rem;
+          border-radius: 4px;
+          font-size: 0.9rem;
+          display: inline-block;
+          margin-bottom: 1rem;
+        }
+
+        .service-duration {
+          color: ${SECONDARY_TEXT};
+          font-size: 0.9rem;
+        }
+
+        .service-book-now {
+          background-color: ${PRIMARY_TEXT};
+          border-color: ${PRIMARY_TEXT};
+          color: ${LIGHT_TEXT};
+          padding: 0.75rem 2rem;
+          font-weight: 600;
+          transition: all 0.3s ease;
+        }
+
+        .service-book-now:hover {
+          background-color: ${SECONDARY_TEXT};
+          border-color: ${SECONDARY_TEXT};
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+        }
+
+        .services-filter {
+          margin-bottom: 2rem;
+        }
+
+        .filter-title {
+          color: ${PRIMARY_TEXT};
+          font-weight: 600;
+          margin-bottom: 1rem;
+        }
+
+        .filter-category {
+          background-color: ${THEME_COLOR_LIGHT};
+          color: ${PRIMARY_TEXT};
+          padding: 0.5rem 1rem;
+          border-radius: 4px;
+          margin-right: 0.5rem;
+          margin-bottom: 0.5rem;
+          display: inline-block;
+          transition: all 0.3s ease;
+        }
+
+        .filter-category:hover {
+          background-color: ${PRIMARY_TEXT};
+          color: ${LIGHT_TEXT};
+        }
+
+        .filter-category.active {
+          background-color: ${PRIMARY_TEXT};
+          color: ${LIGHT_TEXT};
+        }
+
+        .services-search {
+          margin-bottom: 2rem;
+        }
+
+        .search-input {
+          border-color: ${THEME_COLOR_LIGHT};
+          border-radius: 4px;
+          padding: 0.75rem 1rem;
+        }
+
+        .search-input:focus {
+          border-color: ${PRIMARY_TEXT};
+          box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.25);
+        }
+
+        .services-pagination {
+          margin-top: 2rem;
+        }
+
+        .page-link {
+          color: ${PRIMARY_TEXT};
+          border-color: ${THEME_COLOR_LIGHT};
+        }
+
+        .page-link:hover {
+          background-color: ${THEME_COLOR_LIGHT};
+          color: ${PRIMARY_TEXT};
+          border-color: ${PRIMARY_TEXT};
+        }
+
+        .page-item.active .page-link {
+          background-color: ${PRIMARY_TEXT};
+          border-color: ${PRIMARY_TEXT};
+          color: ${LIGHT_TEXT};
+        }
+
+        .services-sidebar {
+          background-color: ${LIGHT_TEXT};
+          border-radius: 8px;
+          padding: 1.5rem;
+          box-shadow: 0 4px 15px rgba(0, 188, 212, 0.1);
+        }
+
+        .sidebar-title {
+          color: ${PRIMARY_TEXT};
+          font-weight: 600;
+          margin-bottom: 1rem;
+          padding-bottom: 0.5rem;
+          border-bottom: 2px solid ${THEME_COLOR_LIGHT};
+        }
+
+        .popular-services {
+          list-style: none;
+          padding: 0;
+        }
+
+        .popular-service-item {
+          margin-bottom: 1rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid ${THEME_COLOR_LIGHT};
+        }
+
+        .popular-service-title {
+          color: ${PRIMARY_TEXT};
+          font-weight: 600;
+          margin-bottom: 0.25rem;
+        }
+
+        .popular-service-price {
+          color: ${SECONDARY_TEXT};
+          font-size: 0.9rem;
+        }
+
         .search-focus:focus,
         .filter-focus:focus {
           border-color: ${THEME_COLOR};

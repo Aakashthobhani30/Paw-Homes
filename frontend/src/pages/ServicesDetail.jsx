@@ -6,7 +6,16 @@ import api from '../api';
 import Layout from '../components/Layout';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
-const THEME_COLOR = '#0fa8a8';
+const THEME_COLOR = '#00bcd4'; // Bright Aqua
+const THEME_COLOR_LIGHT = '#e0f7fa'; // Pale Aqua
+const THEME_COLOR_LIGHTER = '#ffca28'; // Sunny Yellow
+const BACKGROUND_COLOR = '#e0f7fa'; // Pale Aqua
+
+// Text colors
+const PRIMARY_TEXT = '#00bcd4'; // Bright Aqua
+const SECONDARY_TEXT = '#008ba3'; // Darker Aqua
+const LIGHT_TEXT = '#ffffff'; // White
+const LINK_COLOR = '#ffca28'; // Sunny Yellow
 
 const ServiceDetail = () => {
   const { id } = useParams();
@@ -312,7 +321,7 @@ const ServiceDetail = () => {
           .service-title {
             font-size: 2rem;
             font-weight: 700;
-            color: #333;
+            color: ${PRIMARY_TEXT};
             margin-bottom: 1rem;
           }
           
@@ -323,15 +332,15 @@ const ServiceDetail = () => {
           .price-tag {
             font-size: 1.25rem;
             font-weight: 600;
-            color: ${THEME_COLOR};
+            color: ${PRIMARY_TEXT};
           }
           
           .duration-tag {
-            color: #666;
+            color: ${SECONDARY_TEXT};
           }
           
           .service-content {
-            color: #444;
+            color: ${SECONDARY_TEXT};
             line-height: 1.7;
           }
           
@@ -350,26 +359,144 @@ const ServiceDetail = () => {
           
           .hover-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid ${THEME_COLOR_LIGHT};
           }
           
           .hover-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+            box-shadow: 0 8px 25px rgba(0, 188, 212, 0.2);
+            border-color: ${PRIMARY_TEXT};
           }
           
           .hover-card:hover .event-image {
             transform: scale(1.05);
           }
           
+          .btn-hover-teal {
+            background-color: ${PRIMARY_TEXT};
+            border-color: ${PRIMARY_TEXT};
+            color: ${LIGHT_TEXT};
+          }
+          
           .btn-hover-teal:hover {
-            background-color: ${THEME_COLOR} !important;
-            border-color: ${THEME_COLOR} !important;
-            color: white !important;
+            background-color: ${SECONDARY_TEXT};
+            border-color: ${SECONDARY_TEXT};
+            color: ${LIGHT_TEXT};
           }
           
           .search-focus:focus {
-            border-color: ${THEME_COLOR};
-            box-shadow: 0 0 0 0.25rem rgba(15, 168, 168, 0.25);
+            border-color: ${PRIMARY_TEXT};
+            box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.25);
+          }
+
+          .booking-info {
+            background-color: ${THEME_COLOR_LIGHT};
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+          }
+
+          .booking-info p {
+            color: ${SECONDARY_TEXT};
+            margin-bottom: 0;
+          }
+
+          .booking-info i {
+            color: ${PRIMARY_TEXT};
+          }
+
+          .service-location {
+            background-color: ${THEME_COLOR_LIGHT};
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+          }
+
+          .service-location p {
+            color: ${SECONDARY_TEXT};
+            margin-bottom: 0;
+          }
+
+          .service-location i {
+            color: ${PRIMARY_TEXT};
+          }
+
+          .service-requirements {
+            background-color: ${THEME_COLOR_LIGHT};
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+          }
+
+          .service-requirements p {
+            color: ${SECONDARY_TEXT};
+            margin-bottom: 0;
+          }
+
+          .service-features {
+            background-color: ${THEME_COLOR_LIGHT};
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+          }
+
+          .service-features h3 {
+            color: ${PRIMARY_TEXT};
+            font-weight: 600;
+            margin-bottom: 1rem;
+          }
+
+          .service-features ul {
+            color: ${SECONDARY_TEXT};
+            padding-left: 1.5rem;
+          }
+
+          .service-features li {
+            margin-bottom: 0.5rem;
+          }
+
+          .service-booking-form {
+            background-color: ${LIGHT_TEXT};
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.1);
+          }
+
+          .booking-form-title {
+            color: ${PRIMARY_TEXT};
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+          }
+
+          .form-label {
+            color: ${PRIMARY_TEXT};
+            font-weight: 600;
+          }
+
+          .form-control {
+            border-color: ${THEME_COLOR_LIGHT};
+            border-radius: 4px;
+          }
+
+          .form-control:focus {
+            border-color: ${PRIMARY_TEXT};
+            box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.25);
+          }
+
+          .submit-booking-btn {
+            background-color: ${PRIMARY_TEXT};
+            border-color: ${PRIMARY_TEXT};
+            color: ${LIGHT_TEXT};
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+          }
+
+          .submit-booking-btn:hover {
+            background-color: ${SECONDARY_TEXT};
+            border-color: ${SECONDARY_TEXT};
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
           }
           
           @media (max-width: 768px) {

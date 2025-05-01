@@ -2,7 +2,16 @@ import React, { useEffect } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import Layout from '../components/Layout';
 
-const THEME_COLOR = '#0fa8a8';
+const THEME_COLOR = '#00bcd4'; // Bright Aqua
+const THEME_COLOR_LIGHT = '#e0f7fa'; // Pale Aqua
+const THEME_COLOR_LIGHTER = '#ffca28'; // Sunny Yellow
+const BACKGROUND_COLOR = '#e0f7fa'; // Pale Aqua
+
+// Text colors
+const PRIMARY_TEXT = '#00bcd4'; // Bright Aqua
+const SECONDARY_TEXT = '#008ba3'; // Darker Aqua
+const LIGHT_TEXT = '#ffffff'; // White
+const LINK_COLOR = '#ffca28'; // Sunny Yellow
 
 const About = () => {
   useEffect(() => {
@@ -71,11 +80,11 @@ const About = () => {
                   </div>
                 </Col>
                 <Col lg={6}>
-                  <h2 className="h2 mb-4">{section.title}</h2>
-                  <p className="lead mb-4">{section.description}</p>
+                  <h2 className="h2 mb-4" style={{ color: PRIMARY_TEXT }}>{section.title}</h2>
+                  <p className="lead mb-4" style={{ color: SECONDARY_TEXT }}>{section.description}</p>
                   <ul className="feature-list">
                     {section.details.map((detail, idx) => (
-                      <li key={idx}>{detail}</li>
+                      <li key={idx} style={{ color: SECONDARY_TEXT }}>{detail}</li>
                     ))}
                   </ul>
                 </Col>
@@ -87,15 +96,15 @@ const About = () => {
         {/* Contact Section */}
         <Card className="mb-4 shadow-sm hover-card">
           <Card.Body className="p-4">
-            <h2 className="h2 mb-4 text-center">Get in Touch</h2>
-            <p className="lead mb-4 text-center">
+            <h2 className="h2 mb-4 text-center" style={{ color: PRIMARY_TEXT }}>Get in Touch</h2>
+            <p className="lead mb-4 text-center" style={{ color: SECONDARY_TEXT }}>
               Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
             </p>
             <div className="contact-info text-left">
-              <p><strong>📍 Location:</strong> Comming Soon....</p>
-              <p><strong>📞 Phone:</strong> (+91) 9904127855</p>
-              <p><strong>✉️ Email:</strong> info@pawandhomes.com</p>
-              <p><strong>⏰ Working Hours:</strong><br /> Monday-Friday: 9:00 AM - 8:00 PM
+              <p style={{ color: SECONDARY_TEXT }}><strong style={{ color: PRIMARY_TEXT }}>📍 Location:</strong> Comming Soon....</p>
+              <p style={{ color: SECONDARY_TEXT }}><strong style={{ color: PRIMARY_TEXT }}>📞 Phone:</strong> (+91) 9904127855</p>
+              <p style={{ color: SECONDARY_TEXT }}><strong style={{ color: PRIMARY_TEXT }}>✉️ Email:</strong> info@pawandhomes.com</p>
+              <p style={{ color: SECONDARY_TEXT }}><strong style={{ color: PRIMARY_TEXT }}>⏰ Working Hours:</strong><br /> Monday-Friday: 9:00 AM - 8:00 PM
               <br />Saturday-Sunday: 10:00 AM - 6:00 PM</p>
             </div>
           </Card.Body>
@@ -119,11 +128,13 @@ const About = () => {
 
         .hover-card {
           transition: transform 0.3s ease, box-shadow 0.3s ease;
+          border: 1px solid ${THEME_COLOR_LIGHT};
         }
 
         .hover-card:hover {
           transform: translateY(-5px);
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+          box-shadow: 0 8px 25px rgba(0, 188, 212, 0.2);
+          border-color: ${PRIMARY_TEXT};
         }
 
         .hover-card:hover .event-image {
@@ -143,7 +154,7 @@ const About = () => {
 
         .feature-list li::before {
           content: "•";
-          color: ${THEME_COLOR};
+          color: ${PRIMARY_TEXT};
           font-weight: bold;
           position: absolute;
           left: 0;

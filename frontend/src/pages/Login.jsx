@@ -3,6 +3,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import api from "../api";
 import { setTokens } from "../utils/auth";
 
+const THEME_COLOR = '#00bcd4'; // Bright Aqua
+const THEME_COLOR_LIGHT = '#e0f7fa'; // Pale Aqua
+const THEME_COLOR_LIGHTER = '#ffca28'; // Sunny Yellow
+const BACKGROUND_COLOR = '#e0f7fa'; // Pale Aqua
+
+// Text colors
+const PRIMARY_TEXT = '#333333'; // Dark Gray for main text
+const SECONDARY_TEXT = '#666666'; // Medium Gray for secondary text
+const LIGHT_TEXT = '#ffffff'; // White
+const LINK_COLOR = '#00bcd4'; // Bright Aqua for links and accents
+const HEADING_COLOR = '#00bcd4'; // Bright Aqua for headings
+
 const Login = () => {
   
   const [username, setUserName] = useState("");
@@ -49,20 +61,20 @@ const Login = () => {
               alt="Paw & Homes Logo" 
               className="logo" 
             />
-            <h1>Welcome Back!</h1>
-            <p>Your furry friends are waiting for you</p>
+            <h1 style={{ color: HEADING_COLOR }}>Welcome Back!</h1>
+            <p style={{ color: SECONDARY_TEXT }}>Your furry friends are waiting for you</p>
           </div>
           <div className="background-pattern"></div>
         </div>
         
         <div className="login-right">
           <div className="login-form-container">
-            <h2>Sign In</h2>
+            <h2 style={{ color: HEADING_COLOR }}>Sign In</h2>
             {error && <div className="error-message">{error}</div>}
             
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email" style={{ color: PRIMARY_TEXT }}>Email</label>
                 <input
                   type="email"
                   id="email"
@@ -72,11 +84,15 @@ const Login = () => {
                   onChange={(e) => setUserName(e.target.value)}
                   required
                   className="form-input"
+                  style={{ 
+                    borderColor: THEME_COLOR_LIGHT,
+                    backgroundColor: LIGHT_TEXT
+                  }}
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password" style={{ color: PRIMARY_TEXT }}>Password</label>
                 <input
                   type="password"
                   id="password"
@@ -86,14 +102,18 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   className="form-input"
+                  style={{ 
+                    borderColor: THEME_COLOR_LIGHT,
+                    backgroundColor: LIGHT_TEXT
+                  }}
                 />
               </div>
 
               <div className="form-options">
-                <label className="remember-me">
-                  <input type="checkbox" /> Remember me
+                <label className="remember-me" style={{ color: SECONDARY_TEXT }}>
+                  <input type="checkbox" style={{ accentColor: THEME_COLOR }} /> Remember me
                 </label>
-                <Link to="/forgot-password" className="forgot-password">
+                <Link to="/forgot-password" className="forgot-password" style={{ color: LINK_COLOR }}>
                   Forgot Password?
                 </Link>
               </div>
@@ -102,13 +122,17 @@ const Login = () => {
                 type="submit" 
                 className="login-button"
                 disabled={loading}
+                style={{ 
+                  backgroundColor: THEME_COLOR,
+                  color: LIGHT_TEXT
+                }}
               >
                 {loading ? 'Signing In...' : 'Sign In'}
               </button>
 
-              <div className="register-link">
+              <div className="register-link" style={{ color: SECONDARY_TEXT }}>
                 Don't have an account? 
-                <Link to="/register"> Create one</Link>
+                <Link to="/register" style={{ color: LINK_COLOR }}> Create one</Link>
               </div>
             </form>
           </div>
@@ -121,7 +145,7 @@ const Login = () => {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+          background: ${BACKGROUND_COLOR};
           padding: 20px;
           position: relative;
           overflow: hidden;
@@ -134,74 +158,37 @@ const Login = () => {
           left: 0;
           right: 0;
           bottom: 0;
-          background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230b7e7e' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+          background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300bcd4' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
           opacity: 0.5;
           z-index: 0;
         }
 
         .login-container {
           display: flex;
-          background: white;
-          border-radius: 20px;
-          overflow: hidden;
           width: 100%;
           max-width: 1000px;
-          min-height: 600px;
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+          background: ${LIGHT_TEXT};
+          border-radius: 15px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+          overflow: hidden;
           position: relative;
           z-index: 1;
-          transition: transform 0.3s ease;
-        }
-
-        .login-container:hover {
-          transform: translateY(-5px);
         }
 
         .login-left {
           flex: 1;
-          background: linear-gradient(135deg, #0b7e7e 0%, #0d9a9a 100%);
           padding: 40px;
           display: flex;
-          align-items: center;
+          flex-direction: column;
           justify-content: center;
-          color: white;
+          background: ${THEME_COLOR_LIGHT};
           position: relative;
           overflow: hidden;
         }
 
-        .background-pattern {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-          opacity: 0.1;
-        }
-
         .welcome-text {
           text-align: center;
-          position: relative;
-          z-index: 1;
-          animation: fadeIn 1s ease-out;
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .logo {
-          width: 120px;
-          height: 120px;
-          margin-bottom: 20px;
-          object-fit: contain;
-          filter: brightness(0) invert(1);
-          transition: transform 0.3s ease;
-        }
-
-        .logo:hover {
-          transform: scale(1.05);
+          z-index: 2;
         }
 
         .welcome-text h1 {
@@ -221,7 +208,7 @@ const Login = () => {
           padding: 40px;
           display: flex;
           align-items: center;
-          background: white;
+          background: ${LIGHT_TEXT};
         }
 
         .login-form-container {
@@ -237,7 +224,6 @@ const Login = () => {
         }
 
         .login-form-container h2 {
-          color: #333;
           font-size: 1.8rem;
           margin-bottom: 30px;
           text-align: center;
@@ -251,29 +237,26 @@ const Login = () => {
         .form-group label {
           display: block;
           margin-bottom: 8px;
-          color: #555;
           font-weight: 500;
         }
 
         .form-input {
           width: 100%;
           padding: 12px 15px;
-          border: 2px solid #e0e0e0;
+          border: 2px solid ${THEME_COLOR_LIGHT};
           border-radius: 8px;
           font-size: 1rem;
           transition: all 0.3s ease;
-          background: #f8f9fa;
         }
 
         .form-input:focus {
-          border-color: #0b7e7e;
+          border-color: ${THEME_COLOR};
           outline: none;
-          box-shadow: 0 0 0 3px rgba(11, 126, 126, 0.1);
-          background: white;
+          box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1);
         }
 
         .form-input::placeholder {
-          color: #999;
+          color: ${SECONDARY_TEXT};
         }
 
         .form-options {
@@ -288,39 +271,35 @@ const Login = () => {
           display: flex;
           align-items: center;
           gap: 8px;
-          color: #666;
           cursor: pointer;
           transition: color 0.3s ease;
         }
 
         .remember-me:hover {
-          color: #0b7e7e;
+          color: ${THEME_COLOR};
         }
 
         .remember-me input[type="checkbox"] {
           width: 16px;
           height: 16px;
-          accent-color: #0b7e7e;
           cursor: pointer;
         }
 
         .forgot-password {
-          color: #0b7e7e;
           text-decoration: none;
           transition: all 0.3s ease;
           font-weight: 500;
         }
 
         .forgot-password:hover {
-          color: #096666;
           text-decoration: underline;
         }
 
         .login-button {
           width: 100%;
           padding: 14px;
-          background: #0b7e7e;
-          color: white;
+          background: ${THEME_COLOR};
+          color: ${LIGHT_TEXT};
           border: none;
           border-radius: 8px;
           font-size: 1rem;
@@ -332,9 +311,9 @@ const Login = () => {
         }
 
         .login-button:hover {
-          background: #096666;
+          background: ${THEME_COLOR_LIGHTER};
           transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(11, 126, 126, 0.2);
+          box-shadow: 0 4px 12px rgba(0, 188, 212, 0.2);
         }
 
         .login-button:active {
@@ -342,7 +321,7 @@ const Login = () => {
         }
 
         .login-button:disabled {
-          background: #7c9999;
+          background: ${SECONDARY_TEXT};
           cursor: not-allowed;
           transform: none;
           box-shadow: none;
@@ -351,19 +330,16 @@ const Login = () => {
         .register-link {
           text-align: center;
           margin-top: 25px;
-          color: #666;
           font-size: 0.95rem;
         }
 
         .register-link a {
-          color: #0b7e7e;
           text-decoration: none;
           font-weight: 600;
           transition: all 0.3s ease;
         }
 
         .register-link a:hover {
-          color: #096666;
           text-decoration: underline;
         }
 

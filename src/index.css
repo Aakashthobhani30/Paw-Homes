@@ -1,10 +1,10 @@
 /* src/index.css or your main global CSS file */
 :root {
-  --theme-primary: #11bcbc; /* Main Teal */
-  --theme-primary-dark: #0fa8a8; /* Darker Teal (for borders, dark backgrounds) */
-  --theme-primary-light: #a4eaea; /* Light Teal (for lighter backgrounds, accents) */
-  --theme-primary-hover: #0fa8a8; /* Hover color (can be same as dark or slightly different) */
-  --theme-text-on-primary: #ffffff; /* Text color on main teal */
+  --theme-primary: #ba68c8; /* Lavender Purple */
+  --theme-primary-dark: #9c27b0; /* Darker Purple (for borders, dark backgrounds) */
+  --theme-primary-light: #f3e5f5; /* Pale Lavender (for lighter backgrounds, accents) */
+  --theme-primary-hover: #9c27b0; /* Hover color */
+  --theme-text-on-primary: #ffffff; /* Text color on main purple */
   --theme-text-on-light: #212529; /* Text color on light backgrounds */
 
   /* Optional: Override Bootstrap primary if using Sass, or define BS component styles */

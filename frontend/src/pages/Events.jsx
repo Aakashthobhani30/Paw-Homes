@@ -5,7 +5,16 @@ import Layout from '../components/Layout';
 import api from '../api';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
-const THEME_COLOR = '#0fa8a8';
+const THEME_COLOR = '#00bcd4'; // Bright Aqua
+const THEME_COLOR_LIGHT = '#e0f7fa'; // Pale Aqua
+const THEME_COLOR_LIGHTER = '#ffca28'; // Sunny Yellow
+const BACKGROUND_COLOR = '#e0f7fa'; // Pale Aqua
+
+// Text colors
+const PRIMARY_TEXT = '#00bcd4'; // Bright Aqua
+const SECONDARY_TEXT = '#008ba3'; // Darker Aqua
+const LIGHT_TEXT = '#ffffff'; // White
+const LINK_COLOR = '#ffca28'; // Sunny Yellow
 
 const Events = () => {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
@@ -217,49 +226,202 @@ const Events = () => {
       </Container>
 
       <style jsx global>{`
-        .search-focus:focus,
+        .hover-shadow-lg:hover {
+          box-shadow: 0 0.5rem 1rem rgba(0, 188, 212, 0.15) !important;
+          transform: translateY(-5px);
+        }
+
+        .transition-shadow {
+          transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .btn-meet, .btn-register {
+          background-color: ${PRIMARY_TEXT};
+          border-color: ${PRIMARY_TEXT};
+          color: ${LIGHT_TEXT};
+          transition: all 0.3s ease;
+        }
+
+        .btn-meet:hover, .btn-register:hover {
+          background-color: ${SECONDARY_TEXT};
+          border-color: ${SECONDARY_TEXT};
+          color: ${LIGHT_TEXT} !important;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+        }
+
         .filter-focus:focus {
-          border-color: ${THEME_COLOR};
-          box-shadow: 0 0 0 0.25rem rgba(15, 168, 168, 0.25);
+          border-color: ${PRIMARY_TEXT};
+          box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.25);
+        }
+
+        .badge.bg-info { 
+          background-color: ${PRIMARY_TEXT} !important;
+          color: ${LIGHT_TEXT};
+        }
+
+        .badge.bg-secondary { 
+          background-color: ${THEME_COLOR_LIGHTER} !important;
+          color: ${LIGHT_TEXT};
+        }
+
+        .event-card {
+          border: 1px solid ${THEME_COLOR_LIGHT};
+          transition: all 0.3s ease;
+        }
+
+        .event-card:hover {
+          border-color: ${PRIMARY_TEXT};
+          box-shadow: 0 0.5rem 1rem rgba(0, 188, 212, 0.15);
+        }
+
+        .event-name {
+          color: ${PRIMARY_TEXT};
+          font-weight: 600;
+        }
+
+        .event-date {
+          color: ${SECONDARY_TEXT};
+        }
+
+        .event-price {
+          color: ${THEME_COLOR_LIGHTER};
+          font-weight: 600;
+        }
+
+        .event-description {
+          color: ${PRIMARY_TEXT};
+        }
+
+        .modal-header {
+          background-color: ${THEME_COLOR_LIGHT};
+          color: ${PRIMARY_TEXT};
+        }
+
+        .modal-title {
+          color: ${PRIMARY_TEXT};
+          font-weight: 600;
+        }
+
+        .modal-body {
+          background-color: ${LIGHT_TEXT};
+        }
+
+        .event-detail-label {
+          color: ${PRIMARY_TEXT};
+          font-weight: 500;
+        }
+
+        .event-detail-value {
+          color: ${SECONDARY_TEXT};
+        }
+
+        .register-btn {
+          background-color: ${PRIMARY_TEXT};
+          border-color: ${PRIMARY_TEXT};
+          color: ${LIGHT_TEXT};
+          transition: all 0.3s ease;
+        }
+
+        .register-btn:hover {
+          background-color: ${SECONDARY_TEXT};
+          border-color: ${SECONDARY_TEXT};
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+        }
+
+        .filter-card {
+          background-color: ${LIGHT_TEXT};
+          border: 1px solid ${THEME_COLOR_LIGHT};
+        }
+
+        .filter-title {
+          color: ${PRIMARY_TEXT};
+          font-weight: 600;
+        }
+
+        .filter-label {
+          color: ${SECONDARY_TEXT};
+        }
+
+        .form-check-input:checked {
+          background-color: ${PRIMARY_TEXT};
+          border-color: ${PRIMARY_TEXT};
+        }
+
+        .form-check-input:focus {
+          border-color: ${PRIMARY_TEXT};
+          box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.25);
+        }
+
+        .no-events-message {
+          color: ${PRIMARY_TEXT};
+          text-align: center;
+          padding: 2rem;
+        }
+
+        .loading-spinner {
+          color: ${PRIMARY_TEXT};
+        }
+
+        .error-message {
+          color: ${PRIMARY_TEXT};
+          text-align: center;
+          padding: 2rem;
         }
 
         .event-image-container {
           position: relative;
-          height: 200px;
           overflow: hidden;
+          border-radius: 8px 8px 0 0;
         }
 
         .event-image {
           width: 100%;
-          height: 100%;
+          height: 200px;
           object-fit: cover;
           transition: transform 0.3s ease;
         }
 
-        .hover-card {
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .hover-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
-        }
-
-        .hover-card:hover .event-image {
+        .event-card:hover .event-image {
           transform: scale(1.05);
         }
 
-        .event-description {
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          font-size: 0.9rem;
+        .event-meta {
+          padding: 1rem;
         }
 
-        .btn-hover-teal:hover {
-          background-color: ${THEME_COLOR} !important;
-          border-color: ${THEME_COLOR} !important;
+        .event-category-badge {
+          background-color: ${THEME_COLOR_LIGHT};
+          color: ${PRIMARY_TEXT};
+          padding: 0.25rem 0.5rem;
+          border-radius: 4px;
+          font-size: 0.8rem;
+          margin-bottom: 0.5rem;
+          display: inline-block;
+        }
+
+        .event-location {
+          color: ${SECONDARY_TEXT};
+          font-size: 0.9rem;
+          margin-top: 0.5rem;
+        }
+
+        .event-actions {
+          padding: 1rem;
+          border-top: 1px solid ${THEME_COLOR_LIGHT};
+        }
+
+        .event-status {
+          color: ${THEME_COLOR_LIGHTER};
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+        }
+
+        .event-ticket-info {
+          color: ${SECONDARY_TEXT};
+          font-size: 0.9rem;
+          margin-top: 0.5rem;
         }
       `}</style>
     </Layout>

@@ -8,9 +8,16 @@ import { Link } from "react-router-dom";
 import Footer from '../components/Footer';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
-const THEME_COLOR = '#0fa8a8';
-const THEME_COLOR_LIGHT = '#0d9a9a';
-const THEME_COLOR_LIGHTER = '#f0fafa';
+const THEME_COLOR = '#00bcd4'; // Bright Aqua
+const THEME_COLOR_LIGHT = '#e0f7fa'; // Pale Aqua
+const THEME_COLOR_LIGHTER = '#ffca28'; // Sunny Yellow
+const BACKGROUND_COLOR = '#e0f7fa'; // Pale Aqua
+
+// Text colors
+const PRIMARY_TEXT = '#00bcd4'; // Bright Aqua
+const SECONDARY_TEXT = '#008ba3'; // Darker Aqua
+const LIGHT_TEXT = '#ffffff'; // White
+const LINK_COLOR = '#ffca28'; // Sunny Yellow
 
 function Home() {
     const [adoption, setAdoption] = useState([]);
@@ -97,12 +104,69 @@ function Home() {
             <HeroSlider />
             {isLoading ? (
                 <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '400px' }}>
-                    <Spinner animation="border" role="status" style={{ color: '#b3b300', width: '3rem', height: '3rem' }}>
+                    <Spinner animation="border" role="status" style={{ color: THEME_COLOR, width: '3rem', height: '3rem' }}>
                         <span className="visually-hidden">Loading...</span>
                     </Spinner>
                 </div>
             ) : (
-                <Container className="py-5">
+                <Container className="py-5" style={{ backgroundColor: BACKGROUND_COLOR }}>
+                    {/* Featured Section */}
+                    <motion.section
+                        initial={{ y: 50, opacity: 0 }}
+                        whileInView={{ y: 0, opacity: 1 }}
+                        viewport={{ once: true }}
+                        className="mb-5"
+                    >
+                        <Row className="g-4">
+                            <Col lg={6}>
+                                <motion.div
+                                    initial={{ x: -50, opacity: 0 }}
+                                    whileInView={{ x: 0, opacity: 1 }}
+                                    viewport={{ once: true }}
+                                    className="h-100 p-4 rounded-4 shadow-sm"
+                                    style={{ 
+                                        borderLeft: `4px solid ${THEME_COLOR}`,
+                                        backgroundColor: '#ffffff'
+                                    }}
+                                >
+                                    <h2 className="h1 fw-bold mb-3" style={{ color: PRIMARY_TEXT }}>Welcome to Paw & Homes</h2>
+                                    <p className="lead mb-4" style={{ color: SECONDARY_TEXT }}>
+                                        Your trusted partner in pet care and adoption. We're dedicated to creating happy tales, one paw at a time.
+                                    </p>
+                                    <Button
+                                        as={Link}
+                                        to="/about"
+                                        variant="dark"
+                                        className="btn-meet px-4 py-2 rounded-pill"
+                                    >
+                                        Learn More About Us
+                                    </Button>
+                                </motion.div>
+                            </Col>
+                            <Col lg={6}>
+                                <motion.div
+                                    initial={{ x: 50, opacity: 0 }}
+                                    whileInView={{ x: 0, opacity: 1 }}
+                                    viewport={{ once: true }}
+                                    className="h-100 p-4 rounded-4 shadow-sm"
+                                    style={{ 
+                                        background: `linear-gradient(135deg, ${THEME_COLOR} 0%, ${THEME_COLOR_LIGHT} 100%)`,
+                                        color: LIGHT_TEXT
+                                    }}
+                                >
+                                    <h3 className="h2 mb-3">Why Choose Us?</h3>
+                                    <ul className="list-unstyled">
+                                        <li className="mb-2">✓ Professional Pet Care Services</li>
+                                        <li className="mb-2">✓ Quality Pet Products</li>
+                                        <li className="mb-2">✓ Community Events & Activities</li>
+                                        <li className="mb-2">✓ Expert Adoption Support</li>
+                                    </ul>
+                                </motion.div>
+                            </Col>
+                        </Row>
+                    </motion.section>
+
+                    {/* Main Sections */}
                     {sections.map((section, idx) => (
                         <motion.section
                             key={idx}
@@ -110,7 +174,8 @@ function Home() {
                             whileInView={{ y: 0, opacity: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: idx * 0.1 }}
-                            className={`mb-5 p-4 rounded shadow-sm ${section.bg}`}
+                            className={`mb-5 p-4 rounded-4 shadow-sm ${section.bg}`}
+                            style={{ backgroundColor: idx % 2 === 0 ? '#ffffff' : THEME_COLOR_LIGHT }}
                         >
                             <div className="text-center mb-4">
                                 <motion.span
@@ -120,23 +185,30 @@ function Home() {
                                 >
                                     {section.icon}
                                 </motion.span>
-                                <h2 className="h1 mb-2 fw-bold">{section.title}</h2>
-                                <p className="lead text-muted">{section.subtitle}</p>
+                                <h2 className="h1 mb-2 fw-bold" style={{ color: PRIMARY_TEXT }}>{section.title}</h2>
+                                <p className="lead" style={{ color: SECONDARY_TEXT }}>{section.subtitle}</p>
                             </div>
 
                             <div className="d-flex flex-row flex-nowrap overflow-auto pb-3 custom-scrollbar-bootstrap">
-                        {section.data.slice(0, 5).map((item, index) => (
-                                    <div key={item.id || index} className="me-3" style={{ minWidth: '18rem', maxWidth: '18rem' }}>
-                                        <Card className="h-100 shadow-sm hover-shadow-lg transition-shadow duration-300 w-100">
+                                {section.data.slice(0, 5).map((item, index) => (
+                                    <motion.div
+                                        key={item.id || index}
+                                        className="me-3"
+                                        style={{ minWidth: '18rem', maxWidth: '18rem' }}
+                                        whileHover={{ y: -5 }}
+                                        transition={{ duration: 0.2 }}
+                                    >
+                                        <Card className="h-100 shadow-sm hover-shadow-lg transition-shadow">
                                             <Card.Img
                                                 variant="top"
                                                 src={`${BASE_URL}${item.image || item.pet_image}`}
                                                 style={{ height: '200px', objectFit: 'cover' }}
                                                 alt={item.name || item.pet_name}
+                                                className="rounded-top"
                                             />
                                             <Card.Body className="d-flex flex-column">
-                                                <Card.Title className="h5 mb-2">{item.name || item.pet_name}</Card.Title>
-                                                <Card.Text className="text-muted small flex-grow-1 mb-3">
+                                                <Card.Title className="h5 mb-2" style={{ color: PRIMARY_TEXT }}>{item.name || item.pet_name}</Card.Title>
+                                                <Card.Text className="small flex-grow-1 mb-3" style={{ color: SECONDARY_TEXT }}>
                                                     {section.title === "Featured Dogs"
                                                         ? `${item.pet_breed} | ${item.pet_age} yrs`
                                                         : item.description?.substring(0, 80) + (item.description?.length > 80 ? '...' : '') || 'Details coming soon.'
@@ -146,23 +218,25 @@ function Home() {
                                                     as={Link}
                                                     to={section.link}
                                                     variant={section.buttonVariant || 'dark'}
-                                                    className={`w-100 mt-auto ${section.buttonHoverClass || ''}`}
+                                                    className={`w-100 mt-auto ${section.buttonHoverClass || ''} rounded-pill`}
                                                 >
                                                     {section.btnText}
                                                 </Button>
                                             </Card.Body>
                                         </Card>
+                                    </motion.div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
                         </motion.section>
                     ))}
 
+                    {/* About Section */}
                     <motion.section
                         initial={{ y: 50, opacity: 0 }}
                         whileInView={{ y: 0, opacity: 1 }}
                         viewport={{ once: true }}
-                        className="bg-white rounded p-5 text-center shadow-sm"
+                        className="rounded-4 p-5 text-center shadow-sm"
+                        style={{ backgroundColor: '#ffffff' }}
                     >
                         <motion.span
                             initial={{ scale: 0 }}
@@ -171,8 +245,8 @@ function Home() {
                         >
                             🏠
                         </motion.span>
-                        <h2 className="h1 fw-bold mb-3">About Paw & Homes</h2>
-                        <p className="lead text-muted mx-auto" style={{ maxWidth: '800px' }}>
+                        <h2 className="h1 fw-bold mb-3" style={{ color: PRIMARY_TEXT }}>About Paw & Homes</h2>
+                        <p className="lead mx-auto" style={{ maxWidth: '800px', color: SECONDARY_TEXT }}>
                             We are dedicated to helping abandoned and rescued dogs find loving homes.
                             Join us in making a difference in the lives of these wonderful companions.
                         </p>
@@ -180,7 +254,7 @@ function Home() {
                             as={Link}
                             to="/about"
                             variant="dark"
-                            className="btn-meet mt-4 px-4 py-2"
+                            className="btn-meet mt-4 px-4 py-2 rounded-pill"
                         >
                             Learn More About Us
                         </Button>
@@ -188,9 +262,13 @@ function Home() {
                 </Container>
             )}
             <style jsx global>{`
+                body {
+                    background-color: ${BACKGROUND_COLOR};
+                    color: ${PRIMARY_TEXT};
+                }
                 .custom-scrollbar-bootstrap {
                     scrollbar-width: thin;
-                    scrollbar-color: rgba(0,0,0,0.3) transparent;
+                    scrollbar-color: rgba(0, 188, 212, 0.3) transparent;
                 }
                 .custom-scrollbar-bootstrap::-webkit-scrollbar {
                     height: 8px;
@@ -199,33 +277,55 @@ function Home() {
                     background: transparent;
                 }
                 .custom-scrollbar-bootstrap::-webkit-scrollbar-thumb {
-                    background-color: rgba(0,0,0,0.2);
+                    background-color: rgba(0, 188, 212, 0.2);
                     border-radius: 4px;
                 }
-                 .custom-scrollbar-bootstrap::-webkit-scrollbar-thumb:hover {
-                    background-color: rgba(0,0,0,0.3);
+                .custom-scrollbar-bootstrap::-webkit-scrollbar-thumb:hover {
+                    background-color: rgba(0, 188, 212, 0.3);
                 }
-                 .btn-meet:hover {
+                .btn-meet {
                     background-color: ${THEME_COLOR};
-                    border-color: #0fa8a8;
-                    color: #000000 !important;
-                 }
-                 .hover-shadow-lg:hover {
-                    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-                 }
-                 .transition-shadow {
+                    border: none;
+                    transition: all 0.3s ease;
+                    color: ${LIGHT_TEXT};
+                }
+                .btn-meet:hover {
+                    background-color: #008ba3;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+                    color: ${LIGHT_TEXT};
+                }
+                a {
+                    color: ${LINK_COLOR};
+                    text-decoration: none;
+                }
+                a:hover {
+                    color: ${THEME_COLOR};
+                }
+                .hover-shadow-lg {
+                    transition: all 0.3s ease;
+                }
+                .hover-shadow-lg:hover {
+                    box-shadow: 0 0.5rem 1rem rgba(0, 188, 212, 0.15) !important;
+                    transform: translateY(-5px);
+                }
+                .transition-shadow {
                     transition: box-shadow 0.3s ease-in-out;
-                 }
-                 /* NEW Button Hover Style */
-                 .btn-hover-teal {
-                    /* Keep dark base style if using variant="dark" */
-                    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
-                 }
-                 .btn-hover-teal:hover {
-                    background-color: #0fa8a8; /* Dark teal background on hover */
-                    border-color: #0d9a9a; /* Slightly darker border */
-                    color: #ffffff !important; /* White text on hover */
-                 }
+                }
+                .rounded-4 {
+                    border-radius: 1rem !important;
+                }
+                @media (max-width: 768px) {
+                    .display-4 {
+                        font-size: 2.5rem;
+                    }
+                    .h1 {
+                        font-size: 2rem;
+                    }
+                    .lead {
+                        font-size: 1rem;
+                    }
+                }
             `}</style>
         </Layout>
     );

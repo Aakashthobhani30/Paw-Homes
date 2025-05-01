@@ -5,7 +5,16 @@ import { Link } from 'react-router-dom';
 import Layout from "../components/Layout";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
-const THEME_COLOR = '#0fa8a8'; // Using the darker teal theme color
+const THEME_COLOR = '#00bcd4'; // Bright Aqua
+const THEME_COLOR_LIGHT = '#e0f7fa'; // Pale Aqua
+const THEME_COLOR_LIGHTER = '#ffca28'; // Sunny Yellow
+const BACKGROUND_COLOR = '#e0f7fa'; // Pale Aqua
+
+// Text colors
+const PRIMARY_TEXT = '#00bcd4'; // Bright Aqua
+const SECONDARY_TEXT = '#008ba3'; // Darker Aqua
+const LIGHT_TEXT = '#ffffff'; // White
+const LINK_COLOR = '#ffca28'; // Sunny Yellow
 
 const Product = () => {
     const [products, setProducts] = useState([]);
@@ -274,53 +283,224 @@ const Product = () => {
             </Modal>
 
             <style jsx global>{`
+                .hover-shadow-lg:hover {
+                    box-shadow: 0 0.5rem 1rem rgba(0, 188, 212, 0.15) !important;
+                    transform: translateY(-5px);
+                }
+
+                .transition-shadow {
+                    transition: box-shadow 0.3s ease-in-out;
+                }
+
+                .btn-meet, .btn-add-to-cart {
+                    background-color: ${PRIMARY_TEXT};
+                    border-color: ${PRIMARY_TEXT};
+                    color: ${LIGHT_TEXT};
+                    transition: all 0.3s ease;
+                }
+
+                .btn-meet:hover, .btn-add-to-cart:hover {
+                    background-color: ${SECONDARY_TEXT};
+                    border-color: ${SECONDARY_TEXT};
+                    color: ${LIGHT_TEXT} !important;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+                }
+
                 .filter-focus:focus {
-                    border-color: ${THEME_COLOR};
-                    box-shadow: 0 0 0 0.25rem rgba(15, 168, 168, 0.25);
+                    border-color: ${PRIMARY_TEXT};
+                    box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.25);
                 }
-                
+
+                .badge.bg-info { 
+                    background-color: ${PRIMARY_TEXT} !important;
+                    color: ${LIGHT_TEXT};
+                }
+
+                .badge.bg-secondary { 
+                    background-color: ${THEME_COLOR_LIGHTER} !important;
+                    color: ${LIGHT_TEXT};
+                }
+
+                .product-card {
+                    border: 1px solid ${THEME_COLOR_LIGHT};
+                    transition: all 0.3s ease;
+                }
+
+                .product-card:hover {
+                    border-color: ${PRIMARY_TEXT};
+                    box-shadow: 0 0.5rem 1rem rgba(0, 188, 212, 0.15);
+                }
+
+                .product-name {
+                    color: ${PRIMARY_TEXT};
+                    font-weight: 600;
+                }
+
+                .product-category {
+                    color: ${SECONDARY_TEXT};
+                }
+
+                .product-price {
+                    color: ${THEME_COLOR_LIGHTER};
+                    font-weight: 600;
+                }
+
+                .product-description {
+                    color: ${PRIMARY_TEXT};
+                }
+
+                .modal-header {
+                    background-color: ${THEME_COLOR_LIGHT};
+                    color: ${PRIMARY_TEXT};
+                }
+
+                .modal-title {
+                    color: ${PRIMARY_TEXT};
+                    font-weight: 600;
+                }
+
+                .modal-body {
+                    background-color: ${LIGHT_TEXT};
+                }
+
+                .product-detail-label {
+                    color: ${PRIMARY_TEXT};
+                    font-weight: 500;
+                }
+
+                .product-detail-value {
+                    color: ${SECONDARY_TEXT};
+                }
+
+                .add-to-cart-btn {
+                    background-color: ${PRIMARY_TEXT};
+                    border-color: ${PRIMARY_TEXT};
+                    color: ${LIGHT_TEXT};
+                    transition: all 0.3s ease;
+                }
+
+                .add-to-cart-btn:hover {
+                    background-color: ${SECONDARY_TEXT};
+                    border-color: ${SECONDARY_TEXT};
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+                }
+
                 .filter-card {
-                    border-color: rgba(15, 168, 168, 0.1);
+                    background-color: ${LIGHT_TEXT};
+                    border: 1px solid ${THEME_COLOR_LIGHT};
                 }
-                
+
+                .filter-title {
+                    color: ${PRIMARY_TEXT};
+                    font-weight: 600;
+                }
+
+                .filter-label {
+                    color: ${SECONDARY_TEXT};
+                }
+
+                .form-check-input:checked {
+                    background-color: ${PRIMARY_TEXT};
+                    border-color: ${PRIMARY_TEXT};
+                }
+
+                .form-check-input:focus {
+                    border-color: ${PRIMARY_TEXT};
+                    box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.25);
+                }
+
+                .no-products-message {
+                    color: ${PRIMARY_TEXT};
+                    text-align: center;
+                    padding: 2rem;
+                }
+
+                .loading-spinner {
+                    color: ${PRIMARY_TEXT};
+                }
+
+                .error-message {
+                    color: ${PRIMARY_TEXT};
+                    text-align: center;
+                    padding: 2rem;
+                }
+
                 .product-image-container {
                     position: relative;
                     overflow: hidden;
+                    border-radius: 8px 8px 0 0;
                 }
-                
+
                 .product-image {
+                    width: 100%;
                     height: 200px;
                     object-fit: cover;
-                    cursor: pointer;
                     transition: transform 0.3s ease;
                 }
-                
+
                 .product-card:hover .product-image {
                     transform: scale(1.05);
                 }
-                
-                .product-price {
-                    font-size: 1.1rem;
-                    font-weight: bold;
-                    color: ${THEME_COLOR};
+
+                .product-meta {
+                    padding: 1rem;
                 }
-                
-                .btn-hover-teal {
-                    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+
+                .product-category-badge {
+                    background-color: ${THEME_COLOR_LIGHT};
+                    color: ${PRIMARY_TEXT};
+                    padding: 0.25rem 0.5rem;
+                    border-radius: 4px;
+                    font-size: 0.8rem;
+                    margin-bottom: 0.5rem;
+                    display: inline-block;
                 }
-                
-                .btn-hover-teal:hover {
-                    background-color: ${THEME_COLOR} !important;
-                    border-color: ${THEME_COLOR} !important;
-                    color: white !important;
+
+                .product-stock {
+                    color: ${SECONDARY_TEXT};
+                    font-size: 0.9rem;
+                    margin-top: 0.5rem;
                 }
-                
-                .hover-shadow-lg {
-                    transition: box-shadow 0.3s ease;
+
+                .product-actions {
+                    padding: 1rem;
+                    border-top: 1px solid ${THEME_COLOR_LIGHT};
                 }
-                
-                .hover-shadow-lg:hover {
-                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+
+                .quantity-control {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    margin-bottom: 1rem;
+                }
+
+                .quantity-btn {
+                    background-color: ${THEME_COLOR_LIGHT};
+                    color: ${PRIMARY_TEXT};
+                    border: none;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+
+                .quantity-btn:hover {
+                    background-color: ${PRIMARY_TEXT};
+                    color: ${LIGHT_TEXT};
+                }
+
+                .quantity-input {
+                    width: 50px;
+                    text-align: center;
+                    border: 1px solid ${THEME_COLOR_LIGHT};
+                    border-radius: 4px;
+                    padding: 0.25rem;
                 }
             `}</style>
         </div>

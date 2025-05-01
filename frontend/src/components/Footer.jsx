@@ -2,7 +2,16 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const THEME_COLOR = '#0fa8a8';
+const THEME_COLOR = '#00bcd4'; // Bright Aqua
+const THEME_COLOR_LIGHT = '#e0f7fa'; // Pale Aqua
+const THEME_COLOR_LIGHTER = '#ffca28'; // Sunny Yellow
+const BACKGROUND_COLOR = '#e0f7fa'; // Pale Aqua
+
+// Text colors
+const PRIMARY_TEXT = '#00bcd4'; // Bright Aqua
+const SECONDARY_TEXT = '#008ba3'; // Darker Aqua
+const LIGHT_TEXT = '#ffffff'; // White
+const LINK_COLOR = '#ffca28'; // Sunny Yellow
 
 const Footer = () => {
   return (
@@ -15,7 +24,7 @@ const Footer = () => {
               <h5 className="text-white mb-4 white-paw-emoji">🐾 Paw & Homes</h5>
               <p className="text-light-gray mb-4">
                 Creating happy tales, one paw at a time. We're dedicated to connecting pets with loving homes 
-                and providing exceptional care services.
+                and providing exceptional care services.🐶
               </p>
             </Col>
 
@@ -92,59 +101,66 @@ const Footer = () => {
       </div>
 
       <style jsx global>{`
-        .footer {
-          background-color: #333;
-          color: #fff;
-        }
+  .footer {
+    background-color: #1c1c1c;
+    color: ${LIGHT_TEXT};
+    padding: 3rem 0;
+    margin-top: 3rem;
+    border-top: 1px solid ${THEME_COLOR};
+  }
 
-        .footer-main {
-          background-color: #333;
-        }
+  .footer-title {
+    color: ${LIGHT_TEXT};
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+  }
 
-        .footer-bottom {
-          background-color: #222;
-          font-size: 0.9rem;
-        }
+  .footer-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: ${THEME_COLOR_LIGHTER};
+  }
 
-        .text-light-gray {
-          color: #ccc;
-        }
+  .footer-link,
+  .footer-links a,
+  .contact-info li,
+  .footer-bottom-text {
+    color: ${LIGHT_TEXT};
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
 
-        .footer-links li {
-          margin-bottom: 0.5rem;
-        }
+  .footer-link:hover,
+  .footer-links a:hover {
+    color: ${LINK_COLOR};
+    transform: translateX(5px);
+  }
 
-        .footer-links a {
-          color: #ccc;
-          text-decoration: none;
-          transition: color 0.3s ease;
-        }
+  .footer-bottom {
+    background-color: #121212;
+    padding: 1rem 0;
+    margin-top: 2rem;
+  }
 
-        .footer-links a:hover {
-          color: ${THEME_COLOR};
-        }
+  .social-icon {
+    color: ${LINK_COLOR};
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    transition: all 0.3s ease;
+  }
 
-        .contact-info li {
-          color: #ccc;
-          margin-bottom: 1rem;
-        }
+  .social-icon:hover {
+    color: ${LIGHT_TEXT};
+    transform: translateY(-3px);
+  }
+`}</style>
 
-        .footer-bottom a {
-          color: #ccc;
-          text-decoration: none;
-          transition: color 0.3s ease;
-        }
-
-        .footer-bottom a:hover {
-          color: ${THEME_COLOR};
-        }
-
-        @media (max-width: 768px) {
-          .footer-bottom .list-inline-item {
-            margin-bottom: 0.5rem;
-          }
-        }
-      `}</style>
     </footer>
   );
 };

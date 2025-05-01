@@ -4,7 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import api from '../api';
 
-const THEME_COLOR = '#0fa8a8';
+const THEME_COLOR = '#00bcd4'; // Bright Aqua
+const THEME_COLOR_LIGHT = '#e0f7fa'; // Pale Aqua
+const THEME_COLOR_LIGHTER = '#ffca28'; // Sunny Yellow
+const BACKGROUND_COLOR = '#e0f7fa'; // Pale Aqua
+
+// Text colors
+const PRIMARY_TEXT = '#333333'; // Dark Gray for main text
+const SECONDARY_TEXT = '#666666'; // Medium Gray for secondary text
+const LIGHT_TEXT = '#ffffff'; // White
+const LINK_COLOR = '#00bcd4'; // Bright Aqua for links and accents
+const HEADING_COLOR = '#00bcd4'; // Bright Aqua for headings
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -30,13 +40,13 @@ const Checkout = () => {
         } else {
           // Default shipping info (could be empty in a real app)
           setShippingInfo({
-            name: 'John Doe',
-            address: '123 Woof Lane',
-            city: 'Dogsville',
-            state: 'CA',
-            zip: '90210',
-            country: 'USA',
-            phone: '+1 555-1234'
+            name: 'Aakash Thobhani',
+            address: 'Navrangpura',
+            city: 'Ahmedabad',
+            state: 'Gujarat',
+            zip: '38009',
+            country: 'India',
+            phone: '+91 8780091991'
           });
         }
       } catch (error) {
@@ -65,6 +75,7 @@ const Checkout = () => {
       total
     };
   };
+  
 
   const { subtotal, tax, shipping, total } = calculateOrderTotals();
 
@@ -126,29 +137,29 @@ const Checkout = () => {
       <Container className="pb-5">
         <Row>
           <Col md={8}>
-            <Card className="mb-4 shadow-sm">
-              <Card.Header className="bg-white"><h5 className="mb-0">Shipping Address</h5></Card.Header>
+            <Card className="mb-4 shadow-sm" style={{ backgroundColor: LIGHT_TEXT }}>
+              <Card.Header className="bg-white"><h5 className="mb-0" style={{ color: HEADING_COLOR }}>Shipping Address</h5></Card.Header>
               <Card.Body>
                 {shippingInfo ? (
                   <>
-                    <p className="mb-1"><strong>{shippingInfo.name}</strong></p>
-                    <p className="mb-1">{shippingInfo.address}</p>
-                    <p className="mb-1">{shippingInfo.city}, {shippingInfo.state} {shippingInfo.zip}</p>
-                    <p className="mb-1">{shippingInfo.country}</p>
-                    <p className="mb-0">Phone: {shippingInfo.phone}</p>
+                    <p className="mb-1" style={{ color: PRIMARY_TEXT }}><strong>{shippingInfo.name}</strong></p>
+                    <p className="mb-1" style={{ color: SECONDARY_TEXT }}>{shippingInfo.address}</p>
+                    <p className="mb-1" style={{ color: SECONDARY_TEXT }}>{shippingInfo.city}, {shippingInfo.state} {shippingInfo.zip}</p>
+                    <p className="mb-1" style={{ color: SECONDARY_TEXT }}>{shippingInfo.country}</p>
+                    <p className="mb-0" style={{ color: SECONDARY_TEXT }}>Phone: {shippingInfo.phone}</p>
                   </>
                 ) : (
-                  <p className="text-muted">Please add a shipping address</p>
+                  <p style={{ color: SECONDARY_TEXT }}>Please add a shipping address</p>
                 )}
               </Card.Body>
             </Card>
 
-            <Card className="shadow-sm">
-              <Card.Header className="bg-white"><h5 className="mb-0">Order Summary</h5></Card.Header>
+            <Card className="shadow-sm" style={{ backgroundColor: LIGHT_TEXT }}>
+              <Card.Header className="bg-white"><h5 className="mb-0" style={{ color: HEADING_COLOR }}>Order Summary</h5></Card.Header>
               <Card.Body>
                 {cartItems.length === 0 ? (
                   <Alert variant="info">
-                    Your cart is empty. <Button variant="link" className="p-0" onClick={() => navigate('/products')}>Continue shopping</Button>
+                    Your cart is empty. <Button variant="link" className="p-0" onClick={() => navigate('/products')} style={{ color: LINK_COLOR }}>Continue shopping</Button>
                   </Alert>
                 ) : (
                   cartItems.map((item) => (
@@ -161,10 +172,10 @@ const Checkout = () => {
                         )}
                       </Col>
                       <Col xs={6}>
-                        <h6>{item.product_details?.name}</h6>
-                        <small className="text-muted">Quantity: {item.quantity}</small>
+                        <h6 style={{ color: PRIMARY_TEXT }}>{item.product_details?.name}</h6>
+                        <small style={{ color: SECONDARY_TEXT }}>Quantity: {item.quantity}</small>
                       </Col>
-                      <Col xs={3} className="text-end">
+                      <Col xs={3} className="text-end" style={{ color: SECONDARY_TEXT }}>
                         ₹{parseFloat(item.total_amount).toFixed(2)}
                       </Col>
                     </Row>
@@ -175,33 +186,38 @@ const Checkout = () => {
           </Col>
 
           <Col md={4}>
-            <Card className="shadow-sm">
-              <Card.Header className="bg-white"><h5 className="mb-0">Order Total</h5></Card.Header>
+            <Card className="shadow-sm" style={{ backgroundColor: LIGHT_TEXT }}>
+              <Card.Header className="bg-white"><h5 className="mb-0" style={{ color: HEADING_COLOR }}>Order Total</h5></Card.Header>
               <Card.Body>
                 <div className="d-flex justify-content-between mb-2">
-                  <span>Subtotal</span>
-                  <span>₹{subtotal.toFixed(2)}</span>
+                  <span style={{ color: PRIMARY_TEXT }}>Subtotal</span>
+                  <span style={{ color: SECONDARY_TEXT }}>₹{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="d-flex justify-content-between mb-2">
-                  <span>Shipping</span>
-                  <span className="text-success">Free</span>
+                  <span style={{ color: PRIMARY_TEXT }}>Shipping</span>
+                  <span style={{ color: THEME_COLOR }}>Free</span>
                 </div>
                 <div className="d-flex justify-content-between mb-2">
-                  <span>Tax (18%)</span>
-                  <span>₹{tax.toFixed(2)}</span>
+                  <span style={{ color: PRIMARY_TEXT }}>Tax (18%)</span>
+                  <span style={{ color: SECONDARY_TEXT }}>₹{tax.toFixed(2)}</span>
                 </div>
                 <hr />
                 <div className="d-flex justify-content-between mb-3">
-                  <strong>Total</strong>
-                  <strong>₹{total.toFixed(2)}</strong>
+                  <strong style={{ color: PRIMARY_TEXT }}>Total</strong>
+                  <strong style={{ color: HEADING_COLOR }}>₹{total.toFixed(2)}</strong>
                 </div>
 
                 {cartItems.length > 0 && !orderPlaced ? (
                   <Button 
                     variant="dark" 
-                    className="w-100 btn-hover-teal" 
+                    className="w-100" 
                     onClick={handlePlaceOrder}
                     disabled={!shippingInfo}
+                    style={{ 
+                      backgroundColor: THEME_COLOR,
+                      borderColor: THEME_COLOR,
+                      color: LIGHT_TEXT
+                    }}
                   >
                     <i className="fas fa-shopping-cart me-2"></i>Place Order
                   </Button>
@@ -210,6 +226,11 @@ const Checkout = () => {
                     variant="primary" 
                     className="w-100" 
                     onClick={() => navigate('/products')}
+                    style={{ 
+                      backgroundColor: THEME_COLOR,
+                      borderColor: THEME_COLOR,
+                      color: LIGHT_TEXT
+                    }}
                   >
                     Continue Shopping
                   </Button>
@@ -225,13 +246,6 @@ const Checkout = () => {
           </Col>
         </Row>
       </Container>
-
-      <style jsx>{`
-        .btn-hover-teal:hover {
-          background-color: ${THEME_COLOR} !important;
-          border-color: ${THEME_COLOR} !important;
-        }
-      `}</style>
     </Layout>
   );
 };

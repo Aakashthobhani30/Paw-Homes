@@ -11,7 +11,16 @@ import 'swiper/css/navigation';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
-const THEME_COLOR_DARK_TEAL = '#0fa8a8';
+const THEME_COLOR = '#00bcd4'; // Bright Aqua
+const THEME_COLOR_LIGHT = '#e0f7fa'; // Pale Aqua
+const THEME_COLOR_LIGHTER = '#ffca28'; // Sunny Yellow
+const BACKGROUND_COLOR = '#e0f7fa'; // Pale Aqua
+
+// Text colors
+const PRIMARY_TEXT = '#00bcd4'; // Bright Aqua
+const SECONDARY_TEXT = '#008ba3'; // Darker Aqua
+const LIGHT_TEXT = '#ffffff'; // White
+const LINK_COLOR = '#ffca28'; // Sunny Yellow
 
 const HeroSection = () => {
   const [heroItems, setHeroItems] = useState([]);
@@ -114,6 +123,7 @@ const HeroSection = () => {
           height: 100vh;
           overflow: hidden;
           position: relative;
+          background-color: ${BACKGROUND_COLOR};
         }
 
         .swiper {
@@ -137,10 +147,10 @@ const HeroSection = () => {
         .hero-slide-overlay {
           background: linear-gradient(
             to right,
-            rgba(0,0,0,0.7) 0%,
-            rgba(0,0,0,0.5) 30%,
-            rgba(0,0,0,0.3) 60%,
-            rgba(0,0,0,0.1) 100%
+            rgba(0, 0, 0, 0.7) 0%,
+            rgba(0, 0, 0, 0.5) 30%,
+            rgba(0, 0, 0, 0.3) 60%,
+            rgba(0, 0, 0, 0.1) 100%
           );
           top: 0;
           left: 0;
@@ -156,16 +166,16 @@ const HeroSection = () => {
         .hero-title {
           font-size: 2.5rem;
           font-weight: 600;
-          color: white;
-          text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+          color: ${LIGHT_TEXT};
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
           margin-bottom: 1rem;
         }
 
         .hero-subtitle {
           font-size: 1.1rem;
-          color: white;
+          color: ${LIGHT_TEXT};
           line-height: 1.5;
-          text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+          text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
           margin-bottom: 1.5rem;
         }
 
@@ -174,13 +184,23 @@ const HeroSection = () => {
           font-weight: 500;
           transition: all 0.3s ease;
           padding: 0.6rem 1.8rem !important;
-          box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+          background-color: ${PRIMARY_TEXT};
+          border-color: ${PRIMARY_TEXT};
+          color: ${LIGHT_TEXT};
+        }
+
+        .hero-button:hover {
+          background-color: ${SECONDARY_TEXT};
+          border-color: ${SECONDARY_TEXT};
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
         }
 
         .btn-hover-teal:hover {
-          background-color: ${THEME_COLOR_DARK_TEAL} !important;
-          border-color: #0d9a9a !important;
-          color: #ffffff !important;
+          background-color: ${SECONDARY_TEXT} !important;
+          border-color: ${SECONDARY_TEXT} !important;
+          color: ${LIGHT_TEXT} !important;
         }
 
         /* Swiper custom styles */
@@ -192,13 +212,13 @@ const HeroSection = () => {
         }
 
         .swiper-pagination-bullet-active {
-          background: white;
+          background: ${THEME_COLOR_LIGHTER};
           opacity: 1;
         }
 
         .swiper-button-next,
         .swiper-button-prev {
-          color: white;
+          color: ${LIGHT_TEXT};
           background: rgba(0, 0, 0, 0.3);
           width: 44px;
           height: 44px;

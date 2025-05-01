@@ -5,7 +5,16 @@ import api from '../api';
 import { motion } from 'framer-motion';
 import Layout from '../components/Layout';
 
-const THEME_COLOR = '#0fa8a8';
+const THEME_COLOR = '#00bcd4'; // Bright Aqua
+const THEME_COLOR_LIGHT = '#e0f7fa'; // Pale Aqua
+const THEME_COLOR_LIGHTER = '#ffca28'; // Sunny Yellow
+const BACKGROUND_COLOR = '#e0f7fa'; // Pale Aqua
+
+// Text colors
+const PRIMARY_TEXT = '#00bcd4'; // Bright Aqua
+const SECONDARY_TEXT = '#008ba3'; // Darker Aqua
+const LIGHT_TEXT = '#ffffff'; // White
+const LINK_COLOR = '#ffca28'; // Sunny Yellow
 
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
@@ -129,6 +138,221 @@ const Blog = () => {
       </div>
       {renderContent()}
       <style jsx global>{`
+        .blog-container {
+          background-color: ${BACKGROUND_COLOR};
+          min-height: 100vh;
+          padding: 2rem 0;
+        }
+
+        .blog-header {
+          background-color: ${PRIMARY_TEXT};
+          color: ${LIGHT_TEXT};
+          padding: 3rem 0;
+          margin-bottom: 2rem;
+        }
+
+        .blog-title {
+          color: ${LIGHT_TEXT};
+          font-weight: 700;
+          margin-bottom: 1rem;
+        }
+
+        .blog-meta {
+          color: ${LIGHT_TEXT};
+          opacity: 0.9;
+        }
+
+        .blog-card {
+          background-color: ${LIGHT_TEXT};
+          border-radius: 8px;
+          box-shadow: 0 4px 15px rgba(0, 188, 212, 0.1);
+          transition: all 0.3s ease;
+          border: 1px solid ${THEME_COLOR_LIGHT};
+        }
+
+        .blog-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 25px rgba(0, 188, 212, 0.2);
+          border-color: ${PRIMARY_TEXT};
+        }
+
+        .blog-image {
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+          border-radius: 8px 8px 0 0;
+        }
+
+        .blog-content {
+          padding: 1.5rem;
+        }
+
+        .blog-post-title {
+          color: ${PRIMARY_TEXT};
+          font-weight: 600;
+          margin-bottom: 1rem;
+        }
+
+        .blog-post-excerpt {
+          color: ${SECONDARY_TEXT};
+          margin-bottom: 1rem;
+        }
+
+        .blog-post-meta {
+          color: ${SECONDARY_TEXT};
+          font-size: 0.9rem;
+        }
+
+        .blog-category {
+          background-color: ${THEME_COLOR_LIGHT};
+          color: ${PRIMARY_TEXT};
+          padding: 0.25rem 0.75rem;
+          border-radius: 4px;
+          font-size: 0.9rem;
+          display: inline-block;
+          margin-bottom: 1rem;
+        }
+
+        .blog-author {
+          color: ${PRIMARY_TEXT};
+          font-weight: 600;
+        }
+
+        .blog-date {
+          color: ${SECONDARY_TEXT};
+        }
+
+        .blog-read-more {
+          color: ${LINK_COLOR};
+          text-decoration: none;
+          font-weight: 600;
+          transition: color 0.3s ease;
+        }
+
+        .blog-read-more:hover {
+          color: ${PRIMARY_TEXT};
+        }
+
+        .blog-pagination {
+          margin-top: 2rem;
+        }
+
+        .page-link {
+          color: ${PRIMARY_TEXT};
+          border-color: ${THEME_COLOR_LIGHT};
+        }
+
+        .page-link:hover {
+          background-color: ${THEME_COLOR_LIGHT};
+          color: ${PRIMARY_TEXT};
+          border-color: ${PRIMARY_TEXT};
+        }
+
+        .page-item.active .page-link {
+          background-color: ${PRIMARY_TEXT};
+          border-color: ${PRIMARY_TEXT};
+          color: ${LIGHT_TEXT};
+        }
+
+        .blog-search {
+          margin-bottom: 2rem;
+        }
+
+        .search-input {
+          border-color: ${THEME_COLOR_LIGHT};
+          border-radius: 4px;
+          padding: 0.75rem 1rem;
+        }
+
+        .search-input:focus {
+          border-color: ${PRIMARY_TEXT};
+          box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.25);
+        }
+
+        .blog-categories {
+          margin-bottom: 2rem;
+        }
+
+        .category-list {
+          list-style: none;
+          padding: 0;
+        }
+
+        .category-item {
+          margin-bottom: 0.5rem;
+        }
+
+        .category-link {
+          color: ${SECONDARY_TEXT};
+          text-decoration: none;
+          transition: color 0.3s ease;
+        }
+
+        .category-link:hover {
+          color: ${PRIMARY_TEXT};
+        }
+
+        .blog-tags {
+          margin-top: 2rem;
+        }
+
+        .tag-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+
+        .tag-item {
+          background-color: ${THEME_COLOR_LIGHT};
+          color: ${PRIMARY_TEXT};
+          padding: 0.25rem 0.75rem;
+          border-radius: 4px;
+          font-size: 0.9rem;
+          transition: all 0.3s ease;
+        }
+
+        .tag-item:hover {
+          background-color: ${PRIMARY_TEXT};
+          color: ${LIGHT_TEXT};
+        }
+
+        .blog-sidebar {
+          background-color: ${LIGHT_TEXT};
+          border-radius: 8px;
+          padding: 1.5rem;
+          box-shadow: 0 4px 15px rgba(0, 188, 212, 0.1);
+        }
+
+        .sidebar-title {
+          color: ${PRIMARY_TEXT};
+          font-weight: 600;
+          margin-bottom: 1rem;
+          padding-bottom: 0.5rem;
+          border-bottom: 2px solid ${THEME_COLOR_LIGHT};
+        }
+
+        .recent-posts {
+          list-style: none;
+          padding: 0;
+        }
+
+        .recent-post-item {
+          margin-bottom: 1rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid ${THEME_COLOR_LIGHT};
+        }
+
+        .recent-post-title {
+          color: ${PRIMARY_TEXT};
+          font-weight: 600;
+          margin-bottom: 0.25rem;
+        }
+
+        .recent-post-date {
+          color: ${SECONDARY_TEXT};
+          font-size: 0.9rem;
+        }
+
         .event-image-container {
           position: relative;
           height: 200px;

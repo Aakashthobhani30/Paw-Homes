@@ -4,7 +4,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import api from "../api";
 
-const THEME_COLOR = '#0fa8a8';
+const THEME_COLOR = '#00bcd4'; // Bright Aqua
+const THEME_COLOR_LIGHT = '#e0f7fa'; // Pale Aqua
+const THEME_COLOR_LIGHTER = '#ffca28'; // Sunny Yellow
+const BACKGROUND_COLOR = '#e0f7fa'; // Pale Aqua
+
+// Text colors
+const PRIMARY_TEXT = '#333333'; // Dark Gray for main text
+const SECONDARY_TEXT = '#666666'; // Medium Gray for secondary text
+const LIGHT_TEXT = '#ffffff'; // White
+const LINK_COLOR = '#00bcd4'; // Bright Aqua for links and accents
+const HEADING_COLOR = '#00bcd4'; // Bright Aqua for headings
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -136,15 +146,19 @@ const Cart = () => {
 
     if (cartItems.length === 0) {
       return (
-        <Card className="text-center py-5">
+        <Card className="text-center py-5" style={{ backgroundColor: LIGHT_TEXT }}>
           <Card.Body>
-            <h3 className="mb-4">Your cart is empty</h3>
-            <p className="text-muted mb-4">Looks like you haven't added any items to your cart yet.</p>
+            <h3 className="mb-4" style={{ color: HEADING_COLOR }}>Your cart is empty</h3>
+            <p className="mb-4" style={{ color: SECONDARY_TEXT }}>Looks like you haven't added any items to your cart yet.</p>
             <Button 
               as={Link} 
               to="/product" 
               variant="dark"
-              className="btn-hover-teal"
+              style={{ 
+                backgroundColor: THEME_COLOR,
+                borderColor: THEME_COLOR,
+                color: LIGHT_TEXT
+              }}
             >
               Continue Shopping
             </Button>
@@ -158,11 +172,11 @@ const Cart = () => {
         <Table responsive className="cart-table">
           <thead>
             <tr>
-              <th>Item</th>
-              <th>Price</th>
-              <th>Quantity</th>
-              <th>Total</th>
-              <th></th>
+              <th style={{ color: PRIMARY_TEXT }}>Item</th>
+              <th style={{ color: PRIMARY_TEXT }}>Price</th>
+              <th style={{ color: PRIMARY_TEXT }}>Quantity</th>
+              <th style={{ color: PRIMARY_TEXT }}>Total</th>
+              <th style={{ color: PRIMARY_TEXT }}></th>
             </tr>
           </thead>
           <tbody>
@@ -177,16 +191,11 @@ const Cart = () => {
                       style={{ width: '80px', height: '80px', objectFit: 'cover' }}
                     />
                     <div>
-                      <h6 className="mb-0">{item.type === 'product' ? item.product_details?.name : item.event_details?.name}</h6>
-                      <small className="text-muted">
-                        {item.type === 'product' 
-                          ? item.product_details?.description 
-                          : `${item.event_details?.date} at ${item.event_details?.time} - ${item.event_details?.location}`}
-                      </small>
+                      <h6 className="mb-0" style={{ color: PRIMARY_TEXT }}>{item.type === 'product' ? item.product_details?.name : item.event_details?.name}</h6>
                     </div>
                   </div>
                 </td>
-                <td>₹{parseFloat(item.type === 'product' ? item.product_details?.price : item.event_details?.price).toFixed(2)}</td>
+                <td style={{ color: SECONDARY_TEXT }}>₹{parseFloat(item.type === 'product' ? item.product_details?.price : item.event_details?.price).toFixed(2)}</td>
                 <td>
                   <div className="d-flex align-items-center">
                     <Button
@@ -195,6 +204,10 @@ const Cart = () => {
                       onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
                       className="quantity-btn"
                       disabled={item.quantity <= 1 || quantityUpdateLoading[item.id]}
+                      style={{ 
+                        color: SECONDARY_TEXT,
+                        borderColor: SECONDARY_TEXT
+                      }}
                     >
                       -
                     </Button>
@@ -214,7 +227,7 @@ const Cart = () => {
                       />
                       {quantityUpdateLoading[item.id] && (
                         <div className="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75">
-                          <Spinner animation="border" size="sm" />
+                          <Spinner animation="border" size="sm" style={{ color: THEME_COLOR }} />
                         </div>
                       )}
                     </div>
@@ -224,12 +237,16 @@ const Cart = () => {
                       onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
                       className="quantity-btn"
                       disabled={item.quantity >= 99 || quantityUpdateLoading[item.id]}
+                      style={{ 
+                        color: SECONDARY_TEXT,
+                        borderColor: SECONDARY_TEXT
+                      }}
                     >
                       +
                     </Button>
                   </div>
                 </td>
-                <td>₹{parseFloat(item.total_amount).toFixed(2)}</td>
+                <td style={{ color: SECONDARY_TEXT }}>₹{parseFloat(item.total_amount).toFixed(2)}</td>
                 <td>
                   <Button
                     variant="outline-danger"
@@ -245,12 +262,12 @@ const Cart = () => {
           </tbody>
         </Table>
 
-        <Card className="mt-4">
+        <Card className="mt-4" style={{ backgroundColor: LIGHT_TEXT }}>
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <div>
-                <h5 className="mb-0">Total:</h5>
-                <h3 className="mb-0" style={{ color: THEME_COLOR }}>₹{total.toFixed(2)}</h3>
+                <h5 className="mb-0" style={{ color: PRIMARY_TEXT }}>Total:</h5>
+                <h3 className="mb-0" style={{ color: HEADING_COLOR }}>₹{total.toFixed(2)}</h3>
               </div>
               <div>
                 <Button
@@ -258,13 +275,21 @@ const Cart = () => {
                   to="/product"
                   variant="outline-secondary"
                   className="me-2"
+                  style={{ 
+                    color: SECONDARY_TEXT,
+                    borderColor: SECONDARY_TEXT
+                  }}
                 >
                   Continue Shopping
                 </Button>
                 <Button
                   variant="dark"
-                  className="btn-hover-teal"
                   onClick={handleCheckout}
+                  style={{ 
+                    backgroundColor: THEME_COLOR,
+                    borderColor: THEME_COLOR,
+                    color: LIGHT_TEXT
+                  }}
                 >
                   Proceed to Checkout
                 </Button>
@@ -297,8 +322,8 @@ const Cart = () => {
         }
 
         .cart-table th {
-          background-color: #f8f9fa;
-          border-bottom: 2px solid #dee2e6;
+          background-color: ${THEME_COLOR_LIGHT};
+          border-bottom: 2px solid ${THEME_COLOR_LIGHT};
           padding: 1rem;
         }
 
@@ -322,11 +347,6 @@ const Cart = () => {
 
         .quantity-input {
           text-align: center;
-        }
-
-        .btn-hover-teal:hover {
-          background-color: ${THEME_COLOR} !important;
-          border-color: ${THEME_COLOR} !important;
         }
       `}</style>
     </Layout>

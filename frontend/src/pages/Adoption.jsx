@@ -4,7 +4,16 @@ import { Container, Row, Col, Card, Form, Button, Spinner, Modal } from 'react-b
 import Layout from '../components/Layout';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
-const THEME_COLOR = '#0fa8a8'; // Define the teal theme color
+const THEME_COLOR = '#00bcd4'; // Bright Aqua
+const THEME_COLOR_LIGHT = '#e0f7fa'; // Pale Aqua
+const THEME_COLOR_LIGHTER = '#ffca28'; // Sunny Yellow
+const BACKGROUND_COLOR = '#e0f7fa'; // Pale Aqua
+
+// Text colors
+const PRIMARY_TEXT = '#00bcd4'; // Bright Aqua
+const SECONDARY_TEXT = '#008ba3'; // Darker Aqua
+const LIGHT_TEXT = '#ffffff'; // White
+const LINK_COLOR = '#ffca28'; // Sunny Yellow
 
 const Adoption = () => {
     const [pets, setPets] = useState([]);
@@ -77,7 +86,7 @@ const Adoption = () => {
             <div className="min-h-screen bg-light">
                 <div style={{ backgroundColor: THEME_COLOR }} className="text-white text-center py-5 mb-4">
                     <Container>
-                        <h1 className="display-4 fw-bold white-paw-emoji">Don't Buy Just Adopt 🐾</h1>
+                        <h1 className="display-4 fw-bold white-paw-emoji">Adopt a Friend for Life 🐶</h1>
                         <p className="lead">Find Your Perfect Companion</p>
                     </Container>
                 </div>
@@ -242,18 +251,23 @@ const Adoption = () => {
                 {/* Add custom CSS for the theme color (Teal hover) */}
                 <style jsx global>{`
                     .hover-shadow-lg:hover {
-                        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+                        box-shadow: 0 0.5rem 1rem rgba(0, 188, 212, 0.15) !important;
+                        transform: translateY(-5px);
                     }
                     .transition-shadow {
                         transition: box-shadow 0.3s ease-in-out;
                     }
                     .btn-meet, .btn-adopt {
-                        background-color: #343a40; /* Dark base */
-                        border-color: #343a40;
-                        color: #ffffff;
-                        transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+                        background-color: ${PRIMARY_TEXT};
+                        border-color: ${PRIMARY_TEXT};
+                        color: ${LIGHT_TEXT};
+                        transition: all 0.3s ease;
                     }
                     .btn-meet:hover, .btn-adopt:hover {
+                        background-color: ${SECONDARY_TEXT};
+                        border-color: ${SECONDARY_TEXT};
+                        color: ${LIGHT_TEXT} !important;
+                        transform: translateY(-2px);
                         background-color: ${THEME_COLOR}; /* Teal hover background */
                         border-color: #0fa8a8; /* Slightly darker teal border */
                         color: #ffffff !important; /* White text on teal hover */
