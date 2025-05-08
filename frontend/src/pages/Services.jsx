@@ -21,7 +21,7 @@ const Services = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [dayFilter, setDayFilter] = useState('');
+  const [priceFilter, setPriceFilter] = useState('');
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to top on page load
@@ -54,12 +54,14 @@ const Services = () => {
                           (service.description || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
                           (service.location || '').toLowerCase().includes(searchQuery.toLowerCase());
 
-      let matchesDay = true;
-      if (dayFilter) {
-        matchesDay = (service.availability || '').toLowerCase().includes(dayFilter.toLowerCase());
+      let matchesPrice = true;
+      if (priceFilter) {
+        const servicePrice = parseFloat(service.price) || 0;
+        const filterPrice = parseFloat(priceFilter) || 0;
+        matchesPrice = servicePrice <= filterPrice;
       }
 
-      return matchesSearch && matchesDay;
+      return matchesSearch && matchesPrice;
     });
   };
 
@@ -124,7 +126,7 @@ const Services = () => {
         <Card className="mb-4 p-3 shadow-sm">
           <Form>
             <Row className="g-3">
-              <Col lg={6} md={12}>
+              <Col lg={8} md={12}>
                 <Form.Control
                   type="text"
                   placeholder="Search services..."
@@ -133,31 +135,15 @@ const Services = () => {
                   className="search-focus"
                 />
               </Col>
-              <Col lg={6} md={12}>
-                <Form.Select
-                  value={dayFilter}
-                  onChange={(e) => setDayFilter(e.target.value)}
+              <Col lg={4} md={12}>
+                <Form.Control
+                  type="number"
+                  placeholder="Price Range (₹)"
+                  value={priceFilter}
+                  onChange={(e) => setPriceFilter(e.target.value)}
                   className="filter-focus"
-                >
-                  <option value="">All Days</option>
-                  <option value="monday">Monday</option>
-                  <option value="tuesday">Tuesday</option>
-                  <option value="wednesday">Wednesday</option>
-                  <option value="thursday">Thursday</option>
-                  <option value="friday">Friday</option>
-                  <option value="saturday">Saturday</option>
-                  <option value="sunday">Sunday</option>
-                </Form.Select>
-                {dayFilter && (
-                  <Button 
-                    variant="link" 
-                    className="position-absolute end-0 top-50 translate-middle-y" 
-                    style={{ marginRight: '15px', padding: '0', color: THEME_COLOR }}
-                    onClick={() => setDayFilter('')}
-                  >
-                    Clear
-                  </Button>
-                )}
+                  min="0"
+                />
               </Col>
             </Row>
           </Form>

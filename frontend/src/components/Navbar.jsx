@@ -43,7 +43,7 @@ const Navbar = () => {
 
           <Nav>
             <Nav.Link as={Link} to="/cart" className="me-2 position-relative" style={{ color: PRIMARY_TEXT }}>
-              Cart
+            🛒
               {cartItemsCount > 0 && (
                 <Badge
                   pill
@@ -56,7 +56,7 @@ const Navbar = () => {
               )}
             </Nav.Link>
             {accessToken ? (
-              <Nav.Link as={Link} to="/profile" style={{ color: PRIMARY_TEXT }}>Profile</Nav.Link>
+              <Nav.Link as={Link} to="/profile" style={{ color: PRIMARY_TEXT }}>👤</Nav.Link>
             ) : (
               <Nav.Link as={Link} to="/login" style={{ color: PRIMARY_TEXT }}>Login</Nav.Link>
             )}

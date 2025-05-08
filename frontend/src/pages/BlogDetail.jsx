@@ -24,6 +24,7 @@ const BlogDetail = () => {
   const [relatedBlogs, setRelatedBlogs] = useState([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchBlogDetail = async () => {
       try {
         const response = await api.get(`/api/blog/${id}/`);

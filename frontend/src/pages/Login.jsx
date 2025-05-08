@@ -56,11 +56,13 @@ const Login = () => {
       <div className="login-container">
         <div className="login-left">
           <div className="welcome-text">
-            <img 
-              src="https://img.freepik.com/free-photo/rescue-dog-enjoying-being-pet-by-woman-shelter_23-2148682929.jpg"
-              alt="Paw & Homes Logo" 
-              className="logo" 
-            />
+            <div className="logo-container">
+              <img 
+                src="https://img.freepik.com/free-photo/rescue-dog-enjoying-being-pet-by-woman-shelter_23-2148682929.jpg"
+                alt="Paw & Homes Logo" 
+                className="logo" 
+              />
+            </div>
             <h1 style={{ color: HEADING_COLOR }}>Welcome Back!</h1>
             <p style={{ color: SECONDARY_TEXT }}>Your furry friends are waiting for you</p>
           </div>
@@ -189,6 +191,19 @@ const Login = () => {
         .welcome-text {
           text-align: center;
           z-index: 2;
+        }
+
+        .logo-container {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 20px;
+        }
+
+        .logo {
+          max-width: 100%;
+          height: auto;
+          display: block;
+          margin: 0 auto;
         }
 
         .welcome-text h1 {

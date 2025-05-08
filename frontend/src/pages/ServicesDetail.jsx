@@ -29,6 +29,7 @@ const ServiceDetail = () => {
   const [bookingError, setBookingError] = useState('');
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchServiceDetail = async () => {
       try {
         const response = await api.get(`/api/services/${id}/`);

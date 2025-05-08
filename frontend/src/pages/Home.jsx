@@ -23,6 +23,7 @@ function Home() {
     const [adoption, setAdoption] = useState([]);
     const [products, setProducts] = useState([]);
     const [events, setEvents] = useState([]);
+    const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [services, setServices] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -38,7 +39,22 @@ function Home() {
                 ]);
                 setAdoption(adoptionRes.data);
                 setProducts(productsRes.data);
+                
+                // Store all events
                 setEvents(eventsRes.data);
+                
+                // Filter to get only upcoming events
+                const currentDate = new Date();
+                const filtered = eventsRes.data.filter(event => {
+                    // Check if event has a date field and parse it
+                    if (event.date || event.event_date) {
+                        const eventDate = new Date(event.date || event.event_date);
+                        return eventDate >= currentDate;
+                    }
+                    return false; // If no date field, don't include in upcoming events
+                });
+                
+                setUpcomingEvents(filtered);
                 setServices(servicesRes.data);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -78,7 +94,7 @@ function Home() {
         {
             title: "Upcoming Events",
             subtitle: "Join Our Pet Community",
-            data: events,
+            data: upcomingEvents, // Using filtered upcoming events instead of all events
             bg: "bg-light",
             btnText: "Learn More",
             icon: "📅",
@@ -168,66 +184,106 @@ function Home() {
 
                     {/* Main Sections */}
                     {sections.map((section, idx) => (
-                        <motion.section
-                            key={idx}
-                            initial={{ y: 50, opacity: 0 }}
-                            whileInView={{ y: 0, opacity: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: idx * 0.1 }}
-                            className={`mb-5 p-4 rounded-4 shadow-sm ${section.bg}`}
-                            style={{ backgroundColor: idx % 2 === 0 ? '#ffffff' : THEME_COLOR_LIGHT }}
-                        >
-                            <div className="text-center mb-4">
-                                <motion.span
-                                    initial={{ scale: 0 }}
-                                    whileInView={{ scale: 1 }}
-                                    className="display-4 mb-3 d-inline-block"
-                                >
-                                    {section.icon}
-                                </motion.span>
-                                <h2 className="h1 mb-2 fw-bold" style={{ color: PRIMARY_TEXT }}>{section.title}</h2>
-                                <p className="lead" style={{ color: SECONDARY_TEXT }}>{section.subtitle}</p>
-                            </div>
-
-                            <div className="d-flex flex-row flex-nowrap overflow-auto pb-3 custom-scrollbar-bootstrap">
-                                {section.data.slice(0, 5).map((item, index) => (
-                                    <motion.div
-                                        key={item.id || index}
-                                        className="me-3"
-                                        style={{ minWidth: '18rem', maxWidth: '18rem' }}
-                                        whileHover={{ y: -5 }}
-                                        transition={{ duration: 0.2 }}
+                        // Only render section if it has data
+                        section.data.length > 0 ? (
+                            <motion.section
+                                key={idx}
+                                initial={{ y: 50, opacity: 0 }}
+                                whileInView={{ y: 0, opacity: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                                className={`mb-5 p-4 rounded-4 shadow-sm ${section.bg}`}
+                                style={{ backgroundColor: idx % 2 === 0 ? '#ffffff' : THEME_COLOR_LIGHT }}
+                            >
+                                <div className="text-center mb-4">
+                                    <motion.span
+                                        initial={{ scale: 0 }}
+                                        whileInView={{ scale: 1 }}
+                                        className="display-4 mb-3 d-inline-block"
                                     >
-                                        <Card className="h-100 shadow-sm hover-shadow-lg transition-shadow">
-                                            <Card.Img
-                                                variant="top"
-                                                src={`${BASE_URL}${item.image || item.pet_image}`}
-                                                style={{ height: '200px', objectFit: 'cover' }}
-                                                alt={item.name || item.pet_name}
-                                                className="rounded-top"
-                                            />
-                                            <Card.Body className="d-flex flex-column">
-                                                <Card.Title className="h5 mb-2" style={{ color: PRIMARY_TEXT }}>{item.name || item.pet_name}</Card.Title>
-                                                <Card.Text className="small flex-grow-1 mb-3" style={{ color: SECONDARY_TEXT }}>
-                                                    {section.title === "Featured Dogs"
-                                                        ? `${item.pet_breed} | ${item.pet_age} yrs`
-                                                        : item.description?.substring(0, 80) + (item.description?.length > 80 ? '...' : '') || 'Details coming soon.'
-                                                    }
-                                                </Card.Text>
-                                                <Button
-                                                    as={Link}
-                                                    to={section.link}
-                                                    variant={section.buttonVariant || 'dark'}
-                                                    className={`w-100 mt-auto ${section.buttonHoverClass || ''} rounded-pill`}
-                                                >
-                                                    {section.btnText}
-                                                </Button>
-                                            </Card.Body>
-                                        </Card>
-                                    </motion.div>
-                                ))}
-                            </div>
-                        </motion.section>
+                                        {section.icon}
+                                    </motion.span>
+                                    <h2 className="h1 mb-2 fw-bold" style={{ color: PRIMARY_TEXT }}>{section.title}</h2>
+                                    <p className="lead" style={{ color: SECONDARY_TEXT }}>{section.subtitle}</p>
+                                </div>
+
+                                <div className="d-flex flex-row flex-nowrap overflow-auto pb-3 custom-scrollbar-bootstrap">
+                                    {section.data.slice(0, 5).map((item, index) => (
+                                        <motion.div
+                                            key={item.id || index}
+                                            className="me-3"
+                                            style={{ minWidth: '18rem', maxWidth: '18rem' }}
+                                            whileHover={{ y: -5 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <Card className="h-100 shadow-sm hover-shadow-lg transition-shadow">
+                                                <Card.Img
+                                                    variant="top"
+                                                    src={`${BASE_URL}${item.image || item.pet_image}`}
+                                                    style={{ height: '200px', objectFit: 'cover' }}
+                                                    alt={item.name || item.pet_name}
+                                                    className="rounded-top"
+                                                />
+                                                <Card.Body className="d-flex flex-column">
+                                                    <Card.Title className="h5 mb-2" style={{ color: PRIMARY_TEXT }}>{item.name || item.pet_name}</Card.Title>
+                                                    <Card.Text className="small flex-grow-1 mb-3" style={{ color: SECONDARY_TEXT }}>
+                                                        {section.title === "Featured Dogs"
+                                                            ? `${item.pet_breed} | ${item.pet_age} yrs`
+                                                            : section.title === "Upcoming Events" && (item.date || item.event_date)
+                                                              ? `Date: ${new Date(item.date || item.event_date).toLocaleDateString()} | ${item.description?.substring(0, 60) + (item.description?.length > 60 ? '...' : '') || 'Details coming soon.'}`
+                                                              : item.description?.substring(0, 80) + (item.description?.length > 80 ? '...' : '') || 'Details coming soon.'
+                                                        }
+                                                    </Card.Text>
+                                                    <Button
+                                                        as={Link}
+                                                        to={section.link}
+                                                        variant={section.buttonVariant || 'dark'}
+                                                        className={`w-100 mt-auto ${section.buttonHoverClass || ''} rounded-pill`}
+                                                    >
+                                                        {section.btnText}
+                                                    </Button>
+                                                </Card.Body>
+                                            </Card>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </motion.section>
+                        ) : section.title === "Upcoming Events" ? (
+                            // Special case for no upcoming events
+                            <motion.section
+                                key={idx}
+                                initial={{ y: 50, opacity: 0 }}
+                                whileInView={{ y: 0, opacity: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                                className={`mb-5 p-4 rounded-4 shadow-sm ${section.bg}`}
+                                style={{ backgroundColor: idx % 2 === 0 ? '#ffffff' : THEME_COLOR_LIGHT }}
+                            >
+                                <div className="text-center mb-4">
+                                    <motion.span
+                                        initial={{ scale: 0 }}
+                                        whileInView={{ scale: 1 }}
+                                        className="display-4 mb-3 d-inline-block"
+                                    >
+                                        {section.icon}
+                                    </motion.span>
+                                    <h2 className="h1 mb-2 fw-bold" style={{ color: PRIMARY_TEXT }}>{section.title}</h2>
+                                    <p className="lead" style={{ color: SECONDARY_TEXT }}>{section.subtitle}</p>
+                                </div>
+                                
+                                <div className="text-center p-4">
+                                    <p className="mb-3" style={{ color: SECONDARY_TEXT }}>There are no upcoming events scheduled at the moment.</p>
+                                    <Button
+                                        as={Link}
+                                        to="/events"
+                                        variant="dark"
+                                        className="btn-meet px-4 py-2 rounded-pill"
+                                    >
+                                        View All Events
+                                    </Button>
+                                </div>
+                            </motion.section>
+                        ) : null
                     ))}
 
                     {/* About Section */}

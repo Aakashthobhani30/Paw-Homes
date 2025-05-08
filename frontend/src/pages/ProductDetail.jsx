@@ -26,6 +26,7 @@ const ProductDetail = () => {
   const [addToCartSuccess, setAddToCartSuccess] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchProductDetail = async () => {
       setLoading(true);
       setError("");

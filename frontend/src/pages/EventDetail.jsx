@@ -27,6 +27,7 @@ const EventDetail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchEvent = async () => {
       setIsLoading(true);
       setError(null);
