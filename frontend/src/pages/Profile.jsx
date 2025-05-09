@@ -59,7 +59,7 @@ const Profile = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await api.get("/api/orders/");
+      const response = await api.get("/api/orders/checkout/");
       setOrders(response.data);
       calculateOrderStats(response.data);
     } catch (error) {
@@ -100,15 +100,20 @@ const Profile = () => {
   };
 
   const getStatusBadge = (status) => {
-    const statusColors = {
-      'pending': 'warning',
-      'processing': 'info',
-      'completed': 'success',
-      'cancelled': 'danger'
+    const statusMap = {
+      1: { text: 'Placed', color: 'warning' },
+      2: { text: 'Processing', color: 'info' },
+      3: { text: 'Shipped', color: 'primary' },
+      4: { text: 'Out for Delivery', color: 'info' },
+      5: { text: 'Delivered', color: 'success' },
+      6: { text: 'Cancelled', color: 'danger' }
     };
+
+    const statusInfo = statusMap[status] || { text: 'Unknown', color: 'secondary' };
+    
     return (
-      <span className={`badge bg-${statusColors[status] || 'secondary'}`}>
-        {status.charAt(0).toUpperCase() + status.slice(1)}
+      <span className={`badge bg-${statusInfo.color}`}>
+        {statusInfo.text}
       </span>
     );
   };
@@ -145,29 +150,32 @@ const Profile = () => {
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
-                <tr key={order.id}>
-                  <td style={{ color: SECONDARY_TEXT }}>#{order.id}</td>
-                  <td style={{ color: SECONDARY_TEXT }}>{formatDate(order.created_at)}</td>
-                  <td style={{ color: SECONDARY_TEXT }}>{order.items_count} items</td>
-                  <td style={{ color: SECONDARY_TEXT }}>${order.total.toFixed(2)}</td>
-                  <td>{getStatusBadge(order.status)}</td>
-                  <td>
-                    <Button
-                      variant="outline-primary"
-                      size="sm"
-                      onClick={() => navigate(`/orders/${order.id}`)}
-                      style={{ 
-                        color: LINK_COLOR,
-                        borderColor: LINK_COLOR,
-                        backgroundColor: 'transparent'
-                      }}
-                    >
-                      View Details
-                    </Button>
-                  </td>
-                </tr>
-              ))}
+              {orders.map((orderData) => {
+                const order = orderData.order;
+                return (
+                  <tr key={order.id}>
+                    <td style={{ color: SECONDARY_TEXT }}>#{order.order_id || order.id}</td>
+                    <td style={{ color: SECONDARY_TEXT }}>{formatDate(order.created_at)}</td>
+                    <td style={{ color: SECONDARY_TEXT }}>{orderData.order_items.length} items</td>
+                    <td style={{ color: SECONDARY_TEXT }}>₹{order.total.toFixed(2)}</td>
+                    <td>{getStatusBadge(order.order_status)}</td>
+                    <td>
+                      <Button
+                        variant="outline-primary"
+                        size="sm"
+                        onClick={() => navigate(`/orders/${order.id}`)}
+                        style={{ 
+                          color: LINK_COLOR,
+                          borderColor: LINK_COLOR,
+                          backgroundColor: 'transparent'
+                        }}
+                      >
+                        View Details
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </Table>
         )}

@@ -7,11 +7,19 @@ from event.models import Event
 # from user.serializers import AddressSerializer
 from event.models import Event
 from event.serializers import EventSerializer
+from django.contrib.auth.models import User
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name']
 
 class OrderSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    
     class Meta:
         model = Order
-        fields = ['id', 'user_id', 'total', 'payment_status', 'payment_id', 'created_at', 'order_id', 'order_status']
+        fields = '__all__'
         read_only_fields = ['id', 'created_at']  # Prevent users from modifying these fields
 
 

@@ -107,8 +107,21 @@ class AllOrdersAdminView(APIView):
             order_items = OrderItems.objects.filter(order_id=order)
             order_items_serialized = OrderItemsSerializer(order_items, many=True).data
 
+            # Get user details
+            user = order.user
+            user_data = {
+                'id': user.id,
+                'username': user.username,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'date_joined': user.date_joined
+            }
+
             order_data.append({
-                "order": OrderSerializer(order).data,
+                "order": {
+                    **OrderSerializer(order).data,
+                    "user": user_data
+                },
                 "order_items": order_items_serialized
             })
 
@@ -162,7 +175,6 @@ class OrderDetailsView(APIView):
                 'user': {
                     'id': order.user_id.id,
                     'username': order.user_id.username,
-                    'email': order.user_id.email,
                     'first_name': order.user_id.first_name,
                     'last_name': order.user_id.last_name,
                     # 'address': {

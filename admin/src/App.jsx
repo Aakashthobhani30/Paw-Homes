@@ -42,6 +42,7 @@ import HeroSlider from "./pages/herosection/Hero";
 import AddHero from "./pages/herosection/AddHero";
 import ViewHero from "./pages/herosection/ViewHero";
 import EditHero from "./pages/herosection/EditHero";
+import Orders from "./pages/orders/Order";
 function Logout() {
   localStorage.clear();
   return <Navigate to="/login" />;
@@ -356,6 +357,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/orders" element={<Orders />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<RegisterAndLogout />} />

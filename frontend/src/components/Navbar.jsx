@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Navbar as BootstrapNavbar, Nav, Container, Badge } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Navbar as BootstrapNavbar, Nav, Container, Badge, Form } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 
 const THEME_COLOR = '#00bcd4'; // Bright Aqua
 const THEME_COLOR_LIGHT = '#e0f7fa'; // Pale Aqua
@@ -21,7 +21,16 @@ const NAVBAR_ACCENT = '#ffca28'; // Sunny Yellow
 
 const Navbar = () => {
   const [cartItemsCount, setCartItemsCount] = useState(0); // Sample
+  const [searchQuery, setSearchQuery] = useState('');
   const accessToken = localStorage.getItem('access');
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   return (
     <BootstrapNavbar style={{ backgroundColor: BACKGROUND_COLOR }} variant="light" expand="lg" sticky="top">
@@ -40,6 +49,35 @@ const Navbar = () => {
             <Nav.Link as={Link} to="/services" style={{ color: PRIMARY_TEXT }}>Services</Nav.Link>
             <Nav.Link as={Link} to="/about" style={{ color: PRIMARY_TEXT }}>About Us</Nav.Link>
           </Nav>
+
+          <Form className="d-flex me-3" onSubmit={handleSearch}>
+            <div className="input-group">
+              <input
+                type="search"
+                className="form-control"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{
+                  borderColor: THEME_COLOR,
+                  borderRadius: '20px 0 0 20px',
+                  padding: '0.375rem 1rem'
+                }}
+              />
+              <button
+                className="btn"
+                type="submit"
+                style={{
+                  backgroundColor: THEME_COLOR,
+                  color: LIGHT_TEXT,
+                  borderRadius: '0 20px 20px 0',
+                  border: `1px solid ${THEME_COLOR}`
+                }}
+              >
+                <i className="fas fa-search"></i>
+              </button>
+            </div>
+          </Form>
 
           <Nav>
             <Nav.Link as={Link} to="/cart" className="me-2 position-relative" style={{ color: PRIMARY_TEXT }}>
@@ -175,6 +213,11 @@ const Navbar = () => {
           color: ${NAVBAR_TEXT};
           margin-right: 4px;
           display: inline-block;
+        }
+
+        .form-control:focus {
+          border-color: ${THEME_COLOR};
+          box-shadow: 0 0 0 0.2rem rgba(0, 188, 212, 0.25);
         }
       `}</style>
     </BootstrapNavbar>

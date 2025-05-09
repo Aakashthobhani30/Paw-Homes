@@ -20,6 +20,7 @@ const ModifyProduct = ({ method }) => {
   const [productType, setProductType] = useState("");
   const [productDuration, setProductDuration] = useState("");
   const [productPrice, setProductPrice] = useState("");
+  const [productBrand, setProductBrand] = useState("");
   const [productStatus, setProductStatus] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [categories, setCategories] = useState([]);
@@ -94,7 +95,7 @@ const ModifyProduct = ({ method }) => {
     const formData = new FormData();
     formData.append("name", productName);
     formData.append("description", productDescription);
-    formData.append("brand", brand);
+    formData.append("brand", productBrand);
     formData.append("duration", productDuration);
     formData.append("price", productPrice);
     formData.append("status", productStatus);
@@ -277,7 +278,7 @@ const ModifyProduct = ({ method }) => {
                         id="type"
                         className="form-select"
                         value={productType}
-                        onChange={(e) => setProductType(e.target.value)}
+                        onChange={(e) => setProductBrand(e.target.value)}
                         required
                       >
                         <option value={"Select Brand"}>Select Brand</option>

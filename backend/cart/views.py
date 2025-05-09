@@ -8,6 +8,9 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from product.models import Product
 from event.models import Event
+from orders.models import Order, OrderItems
+from django.db import transaction
+import time
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -69,15 +72,70 @@ def remove_from_cart(request, item_id):
     cart_item.save()
     return Response(status=status.HTTP_204_NO_CONTENT)
 
+# @api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+# def complete_purchase(request):
+#     """Complete the purchase by marking all cart items as inactive"""
+#     cart_items = Cart.objects.filter(user=request.user, is_active=True)
+#     if not cart_items.exists():
+#         return Response({"error": "Cart is empty"}, status=status.HTTP_400_BAD_REQUEST)
+    
+#     # Mark all items as inactive (purchased)
+#     cart_items.update(is_active=False)
+    
+#     return Response({"message": "Purchase completed successfully"}, status=status.HTTP_200_OK)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def complete_purchase(request):
-    """Complete the purchase by marking all cart items as inactive"""
+    """Complete the purchase by copying valid cart items to orders and marking them as inactive"""
     cart_items = Cart.objects.filter(user=request.user, is_active=True)
+    
     if not cart_items.exists():
-        return Response({"error": "Cart is empty"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "No eligible cart items to purchase"}, status=status.HTTP_400_BAD_REQUEST)
     
-    # Mark all items as inactive (purchased)
-    cart_items.update(is_active=False)
-    
-    return Response({"message": "Purchase completed successfully"}, status=status.HTTP_200_OK)
+    try:
+        with transaction.atomic():
+            # Calculate total amount
+            total_amount = sum(item.total_amount for item in cart_items)
+            
+            # Generate random payment ID (format: PAY-{timestamp}-{random 6 digits})
+            random_digits = ''.join([str(time.time() * 1000)[-6:]])
+            payment_id = f"PAY-{int(time.time())}-{random_digits}"
+            
+            # Create Order
+            order = Order.objects.create(
+                user=request.user,
+                total=total_amount,
+                payment_status=1,  # Assuming 1 means paid
+                payment_id=payment_id,  # Add the random payment ID
+                order_id=f"ORD-{int(time.time())}"  # Generate a unique order ID
+            )
+            
+            # Create OrderItems from cart items
+            order_items = []
+            for cart_item in cart_items:
+                order_items.append(OrderItems(
+                    user=request.user,
+                    order_id=order,
+                    item=cart_item.product.id if cart_item.product else cart_item.event.id,
+                    type=1 if cart_item.product else 2,  # 1 for product, 2 for event
+                    quantity=cart_item.quantity
+                ))
+            
+            # Bulk create order items
+            OrderItems.objects.bulk_create(order_items)
+            
+            # Mark cart items as inactive
+            cart_items.update(is_active=False)
+            
+            return Response({
+                "message": "Purchase completed and order created successfully",
+                "order_id": order.id,
+                "payment_id": payment_id
+            }, status=status.HTTP_200_OK)
+            
+    except Exception as e:
+        return Response({
+            "error": f"Failed to complete purchase: {str(e)}"
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

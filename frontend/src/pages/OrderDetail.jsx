@@ -118,19 +118,69 @@ const OrderDetail = () => {
               <th style={{ color: PRIMARY_TEXT }}>Item</th>
               <th style={{ color: PRIMARY_TEXT }}>Type</th>
               <th style={{ color: PRIMARY_TEXT }}>Quantity</th>
-              <th style={{ color: PRIMARY_TEXT }}>Price</th>
+              <th style={{ color: PRIMARY_TEXT }}>Unit Price</th>
+              <th style={{ color: PRIMARY_TEXT }}>Total</th>
             </tr>
           </thead>
           <tbody>
-            {order.order_items.map((item, index) => (
-              <tr key={index}>
-                <td style={{ color: SECONDARY_TEXT }}>{item.item}</td>
-                <td style={{ color: SECONDARY_TEXT }}>{item.type === 1 ? 'Product' : 'Service'}</td>
-                <td style={{ color: SECONDARY_TEXT }}>{item.quantity}</td>
-                <td style={{ color: SECONDARY_TEXT }}>₹{item.price || 'N/A'}</td>
-              </tr>
-            ))}
+            {order.order_items.map((item, index) => {
+              const itemName = item.type === 1 
+                ? (item.product?.name || 'Product not found')
+                : (item.event?.title || 'Event not found');
+              const itemPrice = item.type === 1 
+                ? (item.product?.price || 0)
+                : (item.event?.price || 0);
+              const itemTotal = itemPrice * item.quantity;
+              
+              return (
+                <tr key={index}>
+                  <td style={{ color: SECONDARY_TEXT }}>
+                    <div className="d-flex align-items-center">
+                      {item.type === 1 && item.product?.image && (
+                        <img 
+                          src={item.product.image} 
+                          alt={itemName}
+                          style={{ 
+                            width: '50px', 
+                            height: '50px', 
+                            objectFit: 'cover',
+                            marginRight: '10px',
+                            borderRadius: '4px'
+                          }}
+                        />
+                      )}
+                      <div>
+                        <div style={{ fontWeight: '500' }}>{itemName}</div>
+                        {item.type === 1 && item.product?.description && (
+                          <small style={{ color: SECONDARY_TEXT, opacity: 0.8 }}>
+                            {item.product.description.substring(0, 50)}...
+                          </small>
+                        )}
+                      </div>
+                    </div>
+                  </td>
+                  <td style={{ color: SECONDARY_TEXT }}>
+                    <span className={`badge bg-${item.type === 1 ? 'primary' : 'success'}`}>
+                      {item.type === 1 ? 'Product' : 'Event'}
+                    </span>
+                  </td>
+                  <td style={{ color: SECONDARY_TEXT }}>{item.quantity}</td>
+                  <td style={{ color: SECONDARY_TEXT }}>₹{itemPrice.toFixed(2)}</td>
+                  <td style={{ color: SECONDARY_TEXT }}>₹{itemTotal.toFixed(2)}</td>
+                </tr>
+              );
+            })}
           </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan="4" className="text-end" style={{ color: PRIMARY_TEXT, fontWeight: 'bold' }}>
+                Order Total:
+              </td>
+              <td style={{ color: PRIMARY_TEXT, fontWeight: 'bold' }}>
+                ₹{order.order.total.toFixed(2)}
+              </td>
+            </tr>
+          </tfoot>
         </Table>
       </Card.Body>
     </Card>

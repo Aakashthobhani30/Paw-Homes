@@ -80,7 +80,12 @@ const Checkout = () => {
   const { subtotal, tax, shipping, total } = calculateOrderTotals();
 
   const handlePlaceOrder = async () => {
+    console.log('handlePlaceOrder called');
+    console.log('Cart items:', cartItems);
+    console.log('Shipping info:', shippingInfo);
+    
     if (cartItems.length === 0) {
+      console.log('Cart is empty, returning');
       return;
     }
     

@@ -117,7 +117,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'infoflow',
+        'NAME': 'pawhomes',
         'USER': 'root',
         'PASSWORD': 'Aakash@2003',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
