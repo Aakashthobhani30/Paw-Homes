@@ -43,6 +43,7 @@ import AddHero from "./pages/herosection/AddHero";
 import ViewHero from "./pages/herosection/ViewHero";
 import EditHero from "./pages/herosection/EditHero";
 import Orders from "./pages/orders/Order";
+import OrderDetailsPage from "./pages/orders/OrderDetail";
 function Logout() {
   localStorage.clear();
   return <Navigate to="/login" />;
@@ -358,6 +359,7 @@ function App() {
           }
         />
         <Route path="/orders" element={<Orders />} />
+         <Route path="/orders/:orderId" element={<OrderDetailsPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<RegisterAndLogout />} />

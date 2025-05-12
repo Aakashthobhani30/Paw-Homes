@@ -136,19 +136,6 @@ const OrderDetail = () => {
                 <tr key={index}>
                   <td style={{ color: SECONDARY_TEXT }}>
                     <div className="d-flex align-items-center">
-                      {item.type === 1 && item.product?.image && (
-                        <img 
-                          src={item.product.image} 
-                          alt={itemName}
-                          style={{ 
-                            width: '50px', 
-                            height: '50px', 
-                            objectFit: 'cover',
-                            marginRight: '10px',
-                            borderRadius: '4px'
-                          }}
-                        />
-                      )}
                       <div>
                         <div style={{ fontWeight: '500' }}>{itemName}</div>
                         {item.type === 1 && item.product?.description && (
