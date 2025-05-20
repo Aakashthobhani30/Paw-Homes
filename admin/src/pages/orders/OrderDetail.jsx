@@ -201,33 +201,45 @@ function OrderDetailsPage() {
                                 </tr>
                               );
                             }
-                            return items.map((item, index) => (
-                              <tr key={item.id || index}>
-                                <td>
-                                  <div className="d-flex align-items-center">
-                                    {item.product?.image_url && (
-                                      <img 
-                                        src={item.product.image_url} 
-                                        alt={item.product.name}
-                                        className="me-3"
-                                        style={{ width: "50px", height: "50px", objectFit: "cover" }}
-                                      />
-                                    )}
-                                    <div>
-                                      <p className="mb-0 fw-bold">{item.product?.name}</p>
-                                      {item.variant && (
-                                        <small className="text-muted">
-                                          Variant: {item.variant.name}
-                                        </small>
+                            return items.map((item, index) => {
+                              // Get price from various possible locations in the data structure
+                              const price = item.price || 
+                                           item.product?.price || 
+                                           (item.variant?.price) || 
+                                           0;
+                              
+                              // Calculate subtotal safely
+                              const quantity = item.quantity || 1;
+                              const subtotal = (price * quantity).toFixed(2);
+                              
+                              return (
+                                <tr key={item.id || index}>
+                                  <td>
+                                    <div className="d-flex align-items-center">
+                                      {item.product?.image_url && (
+                                        <img 
+                                          src={item.product.image_url} 
+                                          alt={item.product.name}
+                                          className="me-3"
+                                          style={{ width: "50px", height: "50px", objectFit: "cover" }}
+                                        />
                                       )}
+                                      <div>
+                                        <p className="mb-0 fw-bold">{item.product?.name}</p>
+                                        {item.variant && (
+                                          <small className="text-muted">
+                                            Variant: {item.variant.name}
+                                          </small>
+                                        )}
+                                      </div>
                                     </div>
-                                  </div>
-                                </td>
-                                <td>₹{item.price}</td>
-                                <td>{item.quantity}</td>
-                                <td className="text-end">₹{(item.price * item.quantity).toFixed(2)}</td>
-                              </tr>
-                            ));
+                                  </td>
+                                  <td>₹{price}</td>
+                                  <td>{quantity}</td>
+                                  <td className="text-end">₹{subtotal}</td>
+                                </tr>
+                              );
+                            });
                           })()}
                         </tbody>
                         <tfoot className="border-top">
